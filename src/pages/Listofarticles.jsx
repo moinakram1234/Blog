@@ -8,7 +8,7 @@ const ArticleList = () => {
   const [serverRes, setServerRes] = useState(null);
 
 const handleClick = (_id) => {
-    fetch('https://gmblog.onrender.com/singlearticle', {
+    fetch('https://gmblogserver.onrender.com/singlearticle', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const handleClick = (_id) => {
   };
 
   useEffect(() => {
-    fetch('https://gmblog.onrender.com/allarticles', {
+    fetch('https://gmblogserver.onrender.com/allarticles', {
       method: 'GET',
     })
       .then((response) => response.json())

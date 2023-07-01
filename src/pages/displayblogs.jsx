@@ -14,7 +14,7 @@ const Displayblogswithselectedcategories = () => {
  
 useEffect(() => {
   setSelectedcate(category);
-  fetch('https://gmblog.onrender.com/individualcategory', {
+  fetch('https://gmblogserver.onrender.com/individualcategory', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

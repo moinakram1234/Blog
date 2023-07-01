@@ -11,7 +11,7 @@ const SearchBar = () => {
     setQuery(inputValue);
 
     try {
-      const response = await fetch(`https://gmblog.onrender.com/suggestions?query=${encodeURIComponent(inputValue)}`);
+      const response = await fetch(`https://gmblogserver.onrender.com/suggestions?query=${encodeURIComponent(inputValue)}`);
       if (!response.ok) {
         throw new Error('Request failed');
       }

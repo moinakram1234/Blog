@@ -10,7 +10,7 @@ const ProductList = () => {
   const [serverRes, setServerRes] = useState(null);
 
   useEffect(() => {
-    fetch('https://gmblog.onrender.com/allarticles', {
+    fetch('https://gmblogserver.onrender.com/allarticles', {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -23,7 +23,7 @@ const ProductList = () => {
   }, []);
 
   const handleClick = (_id) => {
-    fetch('https://gmblog.onrender.com/singlearticle', {
+    fetch('https://gmblogserver.onrender.com/singlearticle', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

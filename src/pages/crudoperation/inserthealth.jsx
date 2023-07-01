@@ -43,7 +43,7 @@ const InsertBlog = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    fetch('https://gmblog.onrender.com/insertblogs', {
+    fetch('https://gmblogserver.onrender.com/insertblogs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
