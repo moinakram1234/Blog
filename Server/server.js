@@ -43,7 +43,7 @@ function createTextIndexes() {
 }
 
 // Define routes
-app.post('https://magnificent-dragon-1b3b05.netlify.app//insertblogs', (req, res) => {
+app.post('/insertblogs', (req, res) => {
   const { title, description, image, schemaName, heading1, image1, description1, heading2, image2, description2, heading3, image3, description3, heading4, image4, description4, summary } = req.body;
   
   let selectedSchema;
@@ -101,7 +101,7 @@ app.post('https://magnificent-dragon-1b3b05.netlify.app//insertblogs', (req, res
 });
 
 
-app.post('https://magnificent-dragon-1b3b05.netlify.app//individualcategory', (req, res) => {
+app.post('/individualcategory', (req, res) => {
   const { selectcategory } = req.body;
 
   let selectedSchema;
@@ -140,7 +140,7 @@ app.post('https://magnificent-dragon-1b3b05.netlify.app//individualcategory', (r
     });
 });
 
-app.get('https://magnificent-dragon-1b3b05.netlify.app//allarticles', (req, res) => {
+app.get('/allarticles', (req, res) => {
   Promise.all([
     Blog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
     BusinessBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
@@ -158,7 +158,7 @@ app.get('https://magnificent-dragon-1b3b05.netlify.app//allarticles', (req, res)
     });
 });
 
-app.post('https://magnificent-dragon-1b3b05.netlify.app//singlearticle', (req, res) => {
+app.post('/singlearticle', (req, res) => {
   const { id } = req.body;
 
   Promise.all([
@@ -184,7 +184,7 @@ app.post('https://magnificent-dragon-1b3b05.netlify.app//singlearticle', (req, r
     });
 });
 
-app.get('https://magnificent-dragon-1b3b05.netlify.app//suggestions', (req, res) => {
+app.get('/suggestions', (req, res) => {
   const { query } = req.query;
 
   Promise.all([
