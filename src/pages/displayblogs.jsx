@@ -14,7 +14,7 @@ const Displayblogswithselectedcategories = () => {
  
 useEffect(() => {
   setSelectedcate(category);
-  fetch('http://localhost:5000/individualcategory', {
+  fetch('https://gmblog.onrender.com/individualcategory', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ useEffect(() => {
 
 
   const handleClick = (_id) => {
-    fetch('http://localhost:5000/singlearticle', {
+    fetch('https://gmblog.onrender.com/singlearticle', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

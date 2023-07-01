@@ -1,96 +1,51 @@
 import React, { useState } from 'react';
-import { TextField, Typography, List, ListItem, ListItemText, Menu, MenuItem, useMediaQuery } from '@material-ui/core';
+import { TextField, List, ListItem, ListItemText } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const isMobile = useMediaQuery('(max-width:600px)');
 
-  const handleInputChange = async (event) => {
+  const handleInputChange = async (event, value) => {
     const inputValue = event.target.value;
     setQuery(inputValue);
-    handleMenuClose();
+
     try {
-      const response = await fetch(`http://localhost:5000/suggestions?query=${encodeURIComponent(inputValue)}`);
+      const response = await fetch(`https://gmblog.onrender.com/suggestions?query=${encodeURIComponent(inputValue)}`);
       if (!response.ok) {
         throw new Error('Request failed');
       }
       const data = await response.json();
+      console.log(data); // Check the response data in the console
       setSuggestions(data);
-
-      if (data.length > 0) {
-        handleMenuOpen(event);
-      } else {
-        handleMenuClose();
-      }
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-const handleSearch = async (event) => {
-  try {
-    const response = await fetch(`http://localhost:5000/suggestions?query=${encodeURIComponent(query)}`);
-    if (!response.ok) {
-      throw new Error('Request failed');
-    }
-    const data = await response.json();
-    setSuggestions(data);
-
-    // Show popup box with suggestions
-    handleMenuOpen(event);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
-
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const isMenuOpen = Boolean(anchorEl);
-
   return (
     <div>
-      <TextField
-        label="Search"
-        value={query}
-        onChange={handleInputChange}
-       
-        onFocus={handleMenuOpen}
-      />
-
-      <Menu
-        anchorEl={anchorEl}
-        open={isMenuOpen}
-        onClose={handleMenuClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        {suggestions.length > 0 ? (
-          <List>
-            {suggestions.map((suggestion) => (
-              <MenuItem key={suggestion._id} component="a" href={`/displaysearcharticle?data=${suggestion._id}`}>
-                {suggestion.title}
-              </MenuItem>
-            ))}
-          </List>
-        ) : (
-          <Typography>No suggestions found</Typography>
+      <Autocomplete style={{width:'200px'}}
+        options={suggestions}
+        getOptionLabel={(option) => option.title}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search"
+            value={query}
+            onChange={handleInputChange}
+          />
         )}
-      </Menu>
+        renderOption={(option) => (
+          <ListItem
+            component="a"
+            href={`/displaysearcharticle?data=${option._id}`}
+           
+          >
+            <ListItemText primary={option.title} />
+          </ListItem>
+        )}
+      />
     </div>
   );
 };
