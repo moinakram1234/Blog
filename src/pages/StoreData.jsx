@@ -31,7 +31,7 @@ const StoreBloginfo = () => {
     event.preventDefault();
 
   
- fetch('https://gmblogserver.onrender.com/insertblogs', {
+ fetch('https://localhost:5000/insertblogs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

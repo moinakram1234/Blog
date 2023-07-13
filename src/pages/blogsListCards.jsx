@@ -1,16 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Button } from '@material-ui/core';
+import { Grid, Card, CardMedia, CardContent, Typography, Button, makeStyles } from '@material-ui/core';
 import Navbar from './Navbar';
 import Contactus from './contactus';
-import useStyles from '../Styles/Navbarstyle';
 import ArticleDetails from './articledetails';
+
+const useStyles = makeStyles((theme) => ({
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  cardImage: {
+    paddingTop: '56.25%', // 16:9 aspect ratio (adjust as needed)
+  },
+  cardDescription: {
+    display: '-webkit-box',
+    '-webkit-line-clamp': 5,
+    '-webkit-box-orient': 'vertical',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  centeredCard: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+}));
+
 const ProductList = () => {
   const classes = useStyles();
   const [productData, setProductData] = useState([]);
   const [serverRes, setServerRes] = useState(null);
 
   useEffect(() => {
-    fetch('https://gmblogserver.onrender.com/allarticles', {
+    fetch('http://localhost:5000/allarticles', {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -23,7 +47,7 @@ const ProductList = () => {
   }, []);
 
   const handleClick = (_id) => {
-    fetch('https://gmblogserver.onrender.com/singlearticle', {
+    fetch('http://localhost:5000/singlearticle', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +57,6 @@ const ProductList = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Article details response:', data);
-       // const { title, description, image } = data;
         setServerRes(data);
       })
       .catch((error) => {
@@ -48,32 +71,37 @@ const ProductList = () => {
       </div>
       
       {!serverRes ? (
-        <div style={{marginTop:'10%'}}>
-          
-        <Grid container spacing={2} alignItems="center" direction="column">
-          <Grid item container spacing={2} justify="center" xs={12}>
-            {productData.map((product) => (
-              <Grid item xs={12} sm={6} md={2} key={product.title}>
-                <Card>
-                  <CardMedia component="img" height="150" image={product.image} alt={product.title} />
+        <div style={{ marginTop: '6%' }}>
+          <Grid container spacing={3} alignItems="stretch" justify="center">
+            {productData.map((product, index) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={product.title} className={index === 4 ? classes.centeredCard : ''}>
+                <Card className={classes.card}>
+                  <CardMedia
+  className={classes.cardImage}
+  image={product.image}
+  alt={product.title}
+  onClick={() => handleClick(product._id)}
+/>
+
                   <CardContent>
                     <Typography variant="h5" component="h2">
-                      <Button
-                        onClick={() => handleClick(product._id)}
-                        style={{ color: 'black', textDecoration: 'underline' }}
-                      >
+                 
                         {product.title}
-                      </Button>
+                     
+                    </Typography>
+                    <Typography variant="body2" component="p" className={classes.cardDescription}>
+                      {product.description}
                     </Typography>
                   </CardContent>
                 </Card>
               </Grid>
             ))}
           </Grid>
-        </Grid>
         </div>
       ) : (
-          <div style={{margin:'10%'}}><ArticleDetails {...serverRes} /></div>
+        <div style={{ margin: '10%' }}>
+          <ArticleDetails {...serverRes} />
+        </div>
       )}
 
       <div>

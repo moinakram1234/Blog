@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import { color } from 'framer-motion';
 const useStyles = makeStyles((theme) => ({
  
  wlcm: {
@@ -10,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
  
       //marginLeft:'10%'
   },
- wlcminner: {
+  categoryTitle:{color:'white'},
+ wlcminner: {color:'white',
   marginTop: theme.spacing(3), // default margin top value
     [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(8), // adjust the margin top value for small screens

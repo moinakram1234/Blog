@@ -10,7 +10,7 @@ const Displaysearcharticle = () => {
   const [serverRes, setServerRes] = useState(null);
 
   useEffect(() => {
-    fetch('https://gmblogserver.onrender.com/singlearticle', {
+    fetch('http://localhost:5000/singlearticle', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

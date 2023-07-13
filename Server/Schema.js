@@ -113,7 +113,14 @@ const technologyBlogSchema = new mongoose.Schema({
   description4: String,
   summary: String,
 });
-
+const UserSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  firstName: String,
+  lastName:String,
+  otp: String,
+});
+const User = mongoose.model('User', UserSchema);
 const Blog = mongoose.model('Blog', blogSchema);
 const BusinessBlog = mongoose.model('BusinessBlog', businessBlogSchema);
 const SkinBlog = mongoose.model('SkinBlog', skinBlogSchema);
@@ -128,4 +135,5 @@ module.exports = {
   SportBlog,
   HealthBlog,
   TechnologyBlog,
+  User
 };

@@ -5,7 +5,7 @@ import { BrowserRouter , Routes, Route } from 'react-router-dom';
 import Categories from './pages/Categories';
 import AboutUs from './pages/aboutus';
 import InsertBlog from './pages/crudoperation/insertBlog';
-import Displaybolgs from './pages/displayblogs';
+import Displaybolgs from './pages/displaymenublogs';
 import ProductList from './pages/blogsListCards';
 import AdminPanel from './Admin/Adminpannel';
 import Insertbusinessblog from './pages/crudoperation/insertbusinessblog';
@@ -13,8 +13,11 @@ import Inserthealthblog from './pages/crudoperation/inserthealth';
 import Insertskinblog from './pages/crudoperation/insertskin';
 import Inserttechnologyblog from './pages/crudoperation/inserttechnology';
 import Insertsportblog from './pages/crudoperation/insertsport';
-import Displayblogswithselectedcategories from './pages/displayblogs';
+import Displayblogswithselectedcategories from './pages/displaymenublogs';
 import Displaysearcharticle from './pages/displaysercharticle';
+import LoginForm from './login/login';
+import Signup from './login/signup';
+import OTP from './login/otp';
 function Routerpage() {
 return (
 	<BrowserRouter>
@@ -33,6 +36,9 @@ return (
 			<Route exact path='/insertsportblog' element={<Insertsportblog />} />
 			<Route exact path='/blogs' element={<Displayblogswithselectedcategories />} />
 			<Route exact path='/displaysearcharticle' element={<Displaysearcharticle />} />
+			<Route exact path='/login' element={<LoginForm />} />
+			<Route exact path='/signup' element={<Signup />} />
+			<Route exact path='/otp' element={<OTP />} />
 	</Routes>
 	</BrowserRouter>
 );

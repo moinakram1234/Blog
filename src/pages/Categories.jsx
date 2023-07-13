@@ -12,7 +12,7 @@ const Categories = () => {
           <div>
               <Navbar/>
           </div>
-          <div style={{marginTop:'5%'}}>
+          <div>
         <ArticleList/>
           </div>
           <div  style={{position:'absolute',marginTop:isMobile?'110%':'35%',fontSize:isMobile?'8px':'14px',textAlign:'center',backgroundColor:'red',width:'100%'}}>

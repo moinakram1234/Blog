@@ -123,6 +123,11 @@ function Navbar() {
                 <Link className={classes.a} to="/articles" style={{ color: 'black' }}>
                   Articles
                 </Link>
+                </MenuItem>
+                 <MenuItem onClick={handleMenuClose}>
+                <Link className={classes.a} to="/login" style={{ color: 'black' }}>
+                  Login
+                </Link>
               </MenuItem>
             </Menu></>
           ) : (
@@ -145,6 +150,11 @@ function Navbar() {
               <Button className={classes.btnhver} color="inherit">
                 <Link className={classes.a} to="/articles">
                 Articles
+                </Link>
+                </Button>
+                    <Button className={classes.btnhver} color="inherit">
+                <Link className={classes.a} to="/login">
+                Login
                 </Link>
               </Button>
             </>

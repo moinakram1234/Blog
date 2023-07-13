@@ -8,10 +8,10 @@ const AboutUs = () => {
   return (
     <div>
       <Navbar />
-      <Typography variant="h2" align="center" gutterBottom>
+      <Typography style={{marginTop:isMobile?'15%':'8%'}} variant="h2" align="center" gutterBottom>
         About Us
       </Typography>
-      <Typography variant="body1" align="center" paragraph>
+      <Typography style={{width:'70%',marginLeft:isMobile?'50px':'200px'}} variant="body1" align="center" paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu fringilla turpis. Suspendisse potenti.
         Pellentesque dapibus volutpat tellus, eget dignissim ipsum pharetra at. Curabitur ac placerat est, id porta
         augue. Nam elementum risus et massa pharetra, et vestibulum erat consequat. Mauris rutrum nunc id leo posuere

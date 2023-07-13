@@ -2,7 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { Blog, BusinessBlog, SkinBlog, SportBlog, HealthBlog, TechnologyBlog } = require('./Schema');
+const nodemailer = require('nodemailer');
+//const crypto = require('crypto');
+const { Blog, BusinessBlog, SkinBlog, SportBlog, HealthBlog, TechnologyBlog,User} = require('./Schema');
 
 const app = express();
 const port = 5000;
@@ -211,6 +213,125 @@ app.get('/suggestions', (req, res) => {
       res.status(500).json({ error: 'Failed to fetch suggestions', details: err });
     });
 });
+
+
+app.post('/signup', async (req, res) => {
+  const { email, password, firstName,lastName } = req.body;
+  let otp = "";
+
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'email already exists' });
+    }
+
+    // Hash the password
+   // const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = new User({ email, password,firstName,lastName, otp });
+    await newUser.save();
+
+    res.status(200).json({ message: 'Signup successful' });
+  } catch (error) {
+    console.error('Error during signup:', error);
+    res.status(500).json({ message: 'Signup failed' });
+  }
+});
+
+// Sign in route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find the user
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+
+    // Compare passwords
+    if (user.password !== password) {
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
+ res.status(200).json({ message: 'Signin successful' });
+
+    // Redirect to the admin page after a delay
+   
+    return; // Add this line to exit the function and prevent further execution
+  } catch (error) {
+    console.error('Error during signin:', error);
+    res.status(500).json({ message: 'Signin failed' });
+  }
+});
+
+
+
+//users
+const transporter = nodemailer.createTransport({
+  service: 'Gmail', // e.g., 'Gmail', 'SendGrid', etc.
+  auth: {
+    user: 'moinakram7777@gmail.com',
+    pass: 'pyburbzxbnlqmeym'
+  }
+});
+
+app.post('/sendOTP', async (req, res) => {
+  const { email } = req.body;
+  const otp = generateOTP();
+
+  try {
+    // Update the user's OTP in the database
+    await User.findOneAndUpdate({ email }, {otp});
+
+    // Send the OTP to the user via email
+    await transporter.sendMail({
+      from: 'moinakram7777@gmail.com',
+      to: email,
+      subject: 'OTP Verification',
+      text: `Your OTP is: ${otp}`,
+    });
+
+    res.status(200).json({ message: 'OTP sent successfully'});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error sending OTP' });
+  }
+});
+// Route for validating OTP
+app.post('/verifyOTP', async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    // Retrieve the user from the database
+    const user = await User.findOne({ email });
+    // Check if the OTP matches
+    if (user && user.otp === otp) {
+      // Successful login
+      // Generate a session token or perform necessary actions
+      res.status(200).json({ message: 'OTP verified successfully',id:user._id });
+    } else {
+      // Invalid OTP
+      res.status(400).json({ message: 'Invalid OTP' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error verifying OTP' });
+  }
+});
+
+// Function to generate a random OTP
+const generateOTP = () => {
+  const digits = '0123456789';
+  let OTP = '';
+  for (let i = 0; i < 6; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+  return OTP;
+};
+
 
 
 function startServer() {
