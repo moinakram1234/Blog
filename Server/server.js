@@ -13,7 +13,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors());
 
-const connection_url = process.env.MONGURL;
+const connection_url = "mongodb+srv://moinakram7777:nJfHCvTbMuB1GPwX@blogcluster.zsqfcks.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
   .connect(connection_url, { useNewUrlParser: true, useUnifiedTopology: true })
