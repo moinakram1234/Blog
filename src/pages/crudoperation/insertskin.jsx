@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
-
+import ImageCompressor from 'image-compressor.js';
 const InsertBlog = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -27,19 +27,33 @@ const InsertBlog = () => {
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
-
-  const handleImageChange = (event) => {
+ const handleImageChange = (event) => {
     const file = event.target.files[0];
-    convertImageToBase64(file,setImage);
+    convertImageToBase64(file, setImage);
   };
+const convertImageToBase64 = async (file, setImagestate) => {
+  try {
+    const compressedFile = await new ImageCompressor(file, {
+      quality: 0.8, // Adjust the quality setting (0 to 1) for better image quality
+      maxWidth: 800, // Maximum desired width
+      maxHeight: 600, // Maximum desired height
+      success(result) {
+        const reader = new FileReader();
+        reader.readAsDataURL(result);
+        reader.onloadend = () => {
+          setImagestate(reader.result);
+        };
+      },
+      error(e) {
+        console.log('Image compression failed:', e.message);
+      },
+    });
+  } catch (e) {
+    console.log('Image compression failed:', e.message);
+  }
+};
 
-  const convertImageToBase64 = (file,setImagestate) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImagestate(reader.result);
-    };
-  };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -97,9 +111,10 @@ const InsertBlog = () => {
         console.log(err);
       });
   };
-return (
+
+  return (
     <div className="container" style={{ backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zUhvJROxV6FnpsaCSC9p7jZ_2U4Nz8ei9w&usqp=CAU")', backgroundSize: 'cover', height: '100%' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Create a Skin Blog</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Create a Tourism Blog</h1>
       <form onSubmit={handleSubmit} style={{ maxWidth: '70%', margin: '0 auto' }}>
         <div style={{ marginBottom: '20px' }}>
           <TextField 

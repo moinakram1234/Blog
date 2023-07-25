@@ -113,6 +113,25 @@ const technologyBlogSchema = new mongoose.Schema({
   description4: String,
   summary: String,
 });
+const MuslimBlogschema = new mongoose.Schema({
+   title: String,
+  description: String,
+  image: String,
+  heading1: String,
+  image1: String,
+  description1: String,
+  heading2: String,
+  image2: String,
+  description2: String,
+  heading3: String,
+  image3: String,
+  description3: String,
+  heading4: String,
+  image4: String,
+  description4: String,
+  summary: String,
+});
+
 const UserSchema = new mongoose.Schema({
   email: String,
   password: String,
@@ -127,7 +146,7 @@ const SkinBlog = mongoose.model('SkinBlog', skinBlogSchema);
 const SportBlog = mongoose.model('SportBlog', sportBlogSchema);
 const HealthBlog = mongoose.model('HealthBlog', healthBlogSchema);
 const TechnologyBlog = mongoose.model('TechnologyBlog', technologyBlogSchema);
-
+const MuslimBlog = mongoose.model('MuslimBlog', MuslimBlogschema);
 module.exports = {
   Blog,
   BusinessBlog,
@@ -135,5 +154,6 @@ module.exports = {
   SportBlog,
   HealthBlog,
   TechnologyBlog,
-  User
+  User,
+  MuslimBlog
 };

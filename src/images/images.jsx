@@ -4,13 +4,15 @@ import Skin from './skin.jpg';
 import Sports from './sports.jpg';
 import Technology from './tech.jpg';
 import Background from './background.jpg'
+import muslim from './muslim.jpg'
 
 export const Images = {
   Business,
   Health,
   Skin,
   Sports,
-    Technology,
+  Technology,
+    muslim,
   Background
   // Add more images here
 };

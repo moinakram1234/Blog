@@ -3,17 +3,17 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 //const crypto = require('crypto');
-const { Blog, BusinessBlog, SkinBlog, SportBlog, HealthBlog, TechnologyBlog,User} = require('./Schema');
+const { Blog, BusinessBlog, SkinBlog, SportBlog, HealthBlog, TechnologyBlog,User,MuslimBlog} = require('./Schema');
 
 const app = express();
 const port = 5000;
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors());
 
-const connection_url = 'mongodb+srv://moinakram7777:nJfHCvTbMuB1GPwX@blogcluster.zsqfcks.mongodb.net/?retryWrites=true&w=majority';
+const connection_url = process.env.MONGURL;
 
 mongoose
   .connect(connection_url, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -67,6 +67,9 @@ app.post('/insertblogs', (req, res) => {
       break;
     case 'skin':
       selectedSchema = SkinBlog;
+      break;
+      case 'muslim':
+      selectedSchema = MuslimBlog;
       break;
     default:
       return res.status(400).json({ error: 'Invalid schema name' });
@@ -126,6 +129,9 @@ app.post('/individualcategory', (req, res) => {
     case 'skin':
       selectedSchema = SkinBlog;
       break;
+       case 'muslim':
+      selectedSchema = MuslimBlog;
+      break;
     default:
       return res.status(400).json({ error: 'Invalid category' });
   }
@@ -149,10 +155,11 @@ app.get('/allarticles', (req, res) => {
     SportBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
     TechnologyBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
     SkinBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
-    HealthBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec()
+    HealthBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
+    MuslimBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec()
   ])
-    .then(([blogs, businesses, sports, technologies, skins, healthBlogs]) => {
-      const combinedData = [...blogs, ...businesses, ...sports, ...technologies, ...skins, ...healthBlogs];
+    .then(([blogs, businesses, sports, technologies, skins, healthBlogs,Muslim]) => {
+      const combinedData = [...blogs, ...businesses, ...sports, ...technologies, ...skins, ...healthBlogs, ...Muslim];
       res.status(200).json(combinedData);
     })
     .catch((err) => {
@@ -169,10 +176,11 @@ app.post('/singlearticle', (req, res) => {
     SportBlog.findById(id).exec(),
     TechnologyBlog.findById(id).exec(),
     SkinBlog.findById(id).exec(),
-    HealthBlog.findById(id).exec()
+    HealthBlog.findById(id).exec(),
+    MuslimBlog.findById(id).exec()
   ])
-    .then(([blog, businessBlog, sportBlog, technologyBlog, skinBlog, healthBlog]) => {
-      const article = blog || businessBlog || sportBlog || technologyBlog || skinBlog || healthBlog;
+    .then(([blog, businessBlog, sportBlog, technologyBlog, skinBlog, healthBlog,MuslimBlog]) => {
+      const article = blog || businessBlog || sportBlog || technologyBlog || skinBlog || healthBlog || MuslimBlog;
 
       if (!article) {
         return res.status(404).json({ error: 'Article not found' });
@@ -195,16 +203,18 @@ app.get('/suggestions', (req, res) => {
     SportBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
     TechnologyBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
     SkinBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
-    HealthBlog.find({ title: { $regex: query, $options: 'i' } }).select('title')
+    HealthBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
+    MuslimBlog.find({ title: { $regex: query, $options: 'i' } }).select('title')
   ])
-    .then(([blogSuggestions, businessBlogSuggestions, sportBlogSuggestions, technologyBlogSuggestions, skinBlogSuggestions, healthBlogSuggestions]) => {
+    .then(([blogSuggestions, businessBlogSuggestions, sportBlogSuggestions, technologyBlogSuggestions, skinBlogSuggestions, healthBlogSuggestions,MuslimBlogsuggestion]) => {
       const suggestions = [
         ...blogSuggestions,
         ...businessBlogSuggestions,
         ...sportBlogSuggestions,
         ...technologyBlogSuggestions,
         ...skinBlogSuggestions,
-        ...healthBlogSuggestions
+        ...healthBlogSuggestions,
+        ...MuslimBlogsuggestion
       ];
 
       res.status(200).json(suggestions);

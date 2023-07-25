@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
-
+import ImageCompressor from 'image-compressor.js';
 const InsertBlog = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -32,18 +32,31 @@ const InsertBlog = () => {
     const file = event.target.files[0];
     convertImageToBase64(file,setImage);
   };
+const convertImageToBase64 = async (file, setImagestate) => {
+  try {
+    const compressedFile = await new ImageCompressor(file, {
+      quality: 0.8, // Adjust the quality setting (0 to 1) for better image quality
+      maxWidth: 800, // Maximum desired width
+      maxHeight: 600, // Maximum desired height
+      success(result) {
+        const reader = new FileReader();
+        reader.readAsDataURL(result);
+        reader.onloadend = () => {
+          setImagestate(reader.result);
+        };
+      },
+      error(e) {
+        console.log('Image compression failed:', e.message);
+      },
+    });
+  } catch (e) {
+    console.log('Image compression failed:', e.message);
+  }
+};
 
-  const convertImageToBase64 = (file,setImagestate) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImagestate(reader.result);
-    };
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     fetch('http://localhost:5000/insertblogs', {
       method: 'POST',
       headers: {

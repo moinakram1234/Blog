@@ -131,6 +131,9 @@ const AdminPanel = () => {
         </Link>
         <Link style={{ textDecoration: 'none', color: 'black' }} to="/insertskinblog">
           <MenuItem>Skin Care Blog</MenuItem>
+          </Link>
+           <Link style={{ textDecoration: 'none', color: 'black' }} to="/insertmuslimblog">
+          <MenuItem>life of a Muslim</MenuItem>
         </Link>
       </Menu>
       <Button className={classes.adminButton}>

@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography, Button, makeStyles } from '@material-ui/core';
 import Navbar from './Navbar';
 import Contactus from './contactus';
-import ArticleDetails from './articledetails';
-
+import  {useNavigate}  from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   card: {
     height: '100%',
     display: 'flex',
+    borderRadius: '20px',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    boxShadow: '1px 1px 1px 1px rgba(0.8, 0.6, 1, 0.3)',
+     '&:hover': {
+      boxShadow: '-10px 10px 5px 2px rgba(0.8, 0.6, 1, 0.6)' /* Change the box-shadow on hover */
+    }
   },
   cardImage: {
-    paddingTop: '56.25%', // 16:9 aspect ratio (adjust as needed)
+    paddingTop: '60.25%', // 16:9 aspect ratio (adjust as needed)
   },
   cardDescription: {
     display: '-webkit-box',
@@ -20,11 +24,17 @@ const useStyles = makeStyles((theme) => ({
     '-webkit-box-orient': 'vertical',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    color:'gray'
   },
   centeredCard: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+     parentCard: {
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', // Adjust the shadow properties as needed
+    borderRadius: '10px', // Adjust the border radius as needed
+    padding: theme.spacing(2), // Adjust the padding as needed
   },
 }));
 
@@ -32,7 +42,7 @@ const ProductList = () => {
   const classes = useStyles();
   const [productData, setProductData] = useState([]);
   const [serverRes, setServerRes] = useState(null);
-
+ const navigate = useNavigate();
   useEffect(() => {
     fetch('http://localhost:5000/allarticles', {
       method: 'GET',
@@ -57,8 +67,7 @@ const ProductList = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Article details response:', data);
-        setServerRes(data);
-      })
+  navigate('/articledetails', { state: { articleData: data } });   })
       .catch((error) => {
         console.error('Error requesting article details:', error);
       });
@@ -69,22 +78,22 @@ const ProductList = () => {
       <div>
         <Navbar />
       </div>
-      
-      {!serverRes ? (
         <div style={{ marginTop: '6%' }}>
-          <Grid container spacing={3} alignItems="stretch" justify="center">
+             <Card className={classes.parentCard}>
+          <Grid container spacing={3} alignItems="stretch" >
             {productData.map((product, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={product.title} className={index === 4 ? classes.centeredCard : ''}>
-                <Card className={classes.card}>
-                  <CardMedia
+            
+                    <Card className={classes.card}  onClick={() => handleClick(product._id)}>
+                  <CardMedia style={{width:500}}
   className={classes.cardImage}
   image={product.image}
   alt={product.title}
-  onClick={() => handleClick(product._id)}
+ 
 />
 
                   <CardContent>
-                    <Typography variant="h5" component="h2">
+                    <Typography >
                  
                         {product.title}
                      
@@ -94,15 +103,13 @@ const ProductList = () => {
                     </Typography>
                   </CardContent>
                 </Card>
+              
               </Grid>
             ))}
-          </Grid>
+            </Grid>
+            </Card>
         </div>
-      ) : (
-        <div style={{ margin: '10%' }}>
-          <ArticleDetails {...serverRes} />
-        </div>
-      )}
+    
 
       <div>
         <h1>Contact US</h1>

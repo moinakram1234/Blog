@@ -1,75 +1,156 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, makeStyles, Card, CardContent, CardMedia } from '@material-ui/core';
+import { useLocation } from 'react-router-dom';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: '5% auto',
+    width: '90%',
+    maxWidth: '800px',
+  },
+  section: {
+    marginBottom: '20px',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    borderRadius: '10px',
+  },
+  sectionContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    textAlign: 'center',
+    padding: '10px 20px',
+  },
+  sectionHeading: {
+    fontWeight: 'bold',
+    fontSize: '20px',
+    marginBottom: '5px',
+    marginTop:'5%'
+  },
+  image: {
+    width: '100%',
+ //   height: '200px', // Adjust the height as needed
+    objectFit: 'contain', // Display the entire image within the specified height
+    marginBottom: '20px',
+    borderRadius: '10px',
+    marginTop:'5%'
+  },
+  description: {
+    fontSize: '16px',
+    textAlign: 'justify',
+    whiteSpace: 'pre-line',
+  },
+  summary: {
+    fontSize: '16px',
+    textAlign: 'justify',
+    whiteSpace: 'pre-line',
+    marginTop: '20px',
+    padding: '10px 20px',
+    background: '#f3f3f3',
+    borderRadius: '10px',
+  },
+}));
 
-const ArticleDetails = ({
-  title,
-  description,
-  image,
-  heading1,
-  image1,
-  description1,
-  heading2,
-  image2,
-  description2,
-  heading3,
-  image3,
-  description3,
-  heading4,
-  image4,
-  description4,
-  summary
-}) => {
+const ArticleDetails = () => {
+   const location = useLocation();
+  const articleData = location.state?.articleData || null;
+  const classes = useStyles();
   return (
-    <div>
-      <Typography style={{ fontWeight: 'bold', fontSize: '24px', marginLeft: '-42%', margin: '5%' }}>
-        {title}
+    <div className={classes.root}>
+      <Typography variant="h4" style={{ fontWeight: 'bold', marginBottom: '10px', }}>
+        {articleData.title}
       </Typography>
-      <div style={{ marginBottom: '20px', width: '70%' }}>
-        <img src={image} alt={title} style={{ width: '100%', maxWidth: '500px', marginBottom: '20px' }} />
+
+      <Card className={classes.section}>
+        <CardMedia
+          component="img"
+          src={articleData.image}
+          alt={articleData.title}
+          className={classes.image}
+        />
+        <CardContent className={classes.sectionContent}>
+          <Typography variant="body1" className={classes.description}>
+            {articleData.description}
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <div className={classes.section}>
+        <Typography variant="h3" className={classes.sectionHeading}>
+          {articleData.heading1}
+        </Typography>
+        <Card className={classes.section}>
+          <CardMedia
+            component="img"
+            src={articleData.image1}
+            alt={articleData.heading1}
+            className={classes.image}
+          />
+          <CardContent className={classes.sectionContent}>
+            <Typography variant="body1" className={classes.description}>
+              {articleData.description1}
+            </Typography>
+          </CardContent>
+        </Card>
       </div>
-      <div style={{ marginBottom: '20px', width: '70%' }}>
-        <Typography variant="body1" style={{ fontSize: '16px', textAlign: 'justify', whiteSpace: 'pre-line' }}>
-          {description}
+
+      <div className={classes.section}>
+        <Typography variant="h3" className={classes.sectionHeading}>
+          {articleData.heading2}
         </Typography>
+        <Card className={classes.section}>
+          <CardMedia
+            component="img"
+            src={articleData.image2}
+            alt={articleData.heading2}
+            className={classes.image}
+          />
+          <CardContent className={classes.sectionContent}>
+            <Typography variant="body1" className={classes.description}>
+              {articleData.description2}
+            </Typography>
+          </CardContent>
+        </Card>
       </div>
-      <div style={{ marginBottom: '20px', width: '70%' }}>
-        <Typography variant="h3" style={{ fontWeight: 'bold', fontSize: '24px', marginLeft: '-12%', margin: '5%' }}>
-          {heading1}
+
+      <div className={classes.section}>
+        <Typography variant="h3" className={classes.sectionHeading}>
+          {articleData.heading3}
         </Typography>
-        <img src={image1} alt={heading1} style={{ width: '100%', maxWidth: '500px', marginBottom: '20px' }} />
-        <Typography variant="body1" style={{ fontSize: '16px', textAlign: 'justify', whiteSpace: 'pre-line' }}>
-          {description1}
-        </Typography>
+        <Card className={classes.section}>
+          <CardMedia
+            component="img"
+            src={articleData.image3}
+            alt={articleData.heading3}
+            className={classes.image}
+          />
+          <CardContent className={classes.sectionContent}>
+            <Typography variant="body1" className={classes.description}>
+              {articleData.description3}
+            </Typography>
+          </CardContent>
+        </Card>
       </div>
-      <div style={{ marginBottom: '20px', width: '70%' }}>
-        <Typography variant="h3" style={{ fontWeight: 'bold', fontSize: '24px', marginLeft: '-12%', margin: '5%' }}>
-          {heading2}
+
+      <div className={classes.section}>
+        <Typography variant="h3" className={classes.sectionHeading}>
+          {articleData.heading4}
         </Typography>
-        <img src={image2} alt={heading2} style={{ width: '100%', maxWidth: '500px', marginBottom: '20px' }} />
-        <Typography variant="body1" style={{ fontSize: '16px', textAlign: 'justify', whiteSpace: 'pre-line' }}>
-          {description2}
-        </Typography>
+        <Card className={classes.section}>
+          <CardMedia
+            component="img"
+            src={articleData.image4}
+            alt={articleData.heading4}
+            className={classes.image}
+          />
+          <CardContent className={classes.sectionContent}>
+            <Typography variant="body1" className={classes.description}>
+              {articleData.tdescription4}
+            </Typography>
+          </CardContent>
+        </Card>
       </div>
-      <div style={{ marginBottom: '20px', width: '70%' }}>
-        <Typography variant="h3" style={{ fontWeight: 'bold', fontSize: '24px', marginLeft: '-12%', margin: '5%' }}>
-          {heading3}
-        </Typography>
-        <img src={image3} alt={heading3} style={{ width: '100%', maxWidth: '500px', marginBottom: '20px' }} />
-        <Typography variant="body1" style={{ fontSize: '16px', textAlign: 'justify', whiteSpace: 'pre-line' }}>
-          {description3}
-        </Typography>
-      </div>
-      <div style={{ marginBottom: '20px', width: '70%' }}>
-        <Typography variant="h3" style={{ fontWeight: 'bold', fontSize: '24px', marginLeft: '-12%', margin: '5%' }}>
-          {heading4}
-        </Typography>
-        <img src={image4} alt={heading4} style={{ width: '100%', maxWidth: '500px', marginBottom: '20px' }} />
-        <Typography variant="body1" style={{ fontSize: '16px', textAlign: 'justify', whiteSpace: 'pre-line' }}>
-          {description4}
-        </Typography>
-      </div>
-      <Typography variant="body1" style={{ fontSize: '16px', textAlign: 'justify', whiteSpace: 'pre-line' }}>
-        Summary: {summary}
+
+      <Typography variant="body1" className={classes.summary}>
+        Summary: {articleData.summary}
       </Typography>
     </div>
   );

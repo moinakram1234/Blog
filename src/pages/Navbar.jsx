@@ -44,7 +44,7 @@ function Navbar() {
 
   return (
     <div>
-      <AppBar style={{ width: '100%' }}>
+      <AppBar style={{ width: '100%',backgroundColor:'#0091f0' }}>
         <Toolbar>
           <div>
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={handleMenuClick}>
@@ -109,21 +109,17 @@ function Navbar() {
                   Home
                 </Link>
               </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-                 <Link className={classes.a} to="/categories" style={{ color: 'black' }}>
-                  Categories
-                </Link>
-              </MenuItem>
-              <MenuItem onClick={handleMenuClose}>
-              <Link className={classes.a} to="/aboutus" style={{ color: 'black' }}>
-                  About
-                </Link>
-              </MenuItem>
+           
               <MenuItem onClick={handleMenuClose}>
                 <Link className={classes.a} to="/articles" style={{ color: 'black' }}>
                   Articles
                 </Link>
                 </MenuItem>
+                   <MenuItem onClick={handleMenuClose}>
+              <Link className={classes.a} to="/aboutus" style={{ color: 'black' }}>
+                  About
+                </Link>
+              </MenuItem>
                  <MenuItem onClick={handleMenuClose}>
                 <Link className={classes.a} to="/login" style={{ color: 'black' }}>
                   Login
@@ -138,20 +134,15 @@ function Navbar() {
                 </Link>
               </Button>
               <Button className={classes.btnhver} color="inherit">
-                <Link className={classes.a} to="/categories">
-                  Categories
-                </Link>
-              </Button>
-              <Button className={classes.btnhver} color="inherit">
-                <Link className={classes.a} to="/aboutus">
-                  About
-                </Link>
-              </Button>
-              <Button className={classes.btnhver} color="inherit">
                 <Link className={classes.a} to="/articles">
                 Articles
                 </Link>
                 </Button>
+                  <Button className={classes.btnhver} color="inherit">
+                <Link className={classes.a} to="/aboutus">
+                  About
+                </Link>
+              </Button>
                     <Button className={classes.btnhver} color="inherit">
                 <Link className={classes.a} to="/login">
                 Login
