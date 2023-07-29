@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import ImageCompressor from 'image-compressor.js';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 const InsertBlog = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -23,38 +26,35 @@ const InsertBlog = () => {
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
-
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
-
- const handleImageChange = (event) => {
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
     convertImageToBase64(file, setImage);
   };
-const convertImageToBase64 = async (file, setImagestate) => {
-  try {
-    const compressedFile = await new ImageCompressor(file, {
-      quality: 0.8, // Adjust the quality setting (0 to 1) for better image quality
-      maxWidth: 800, // Maximum desired width
-      maxHeight: 600, // Maximum desired height
-      success(result) {
-        const reader = new FileReader();
-        reader.readAsDataURL(result);
-        reader.onloadend = () => {
-          setImagestate(reader.result);
-        };
-      },
-      error(e) {
-        console.log('Image compression failed:', e.message);
-      },
-    });
-  } catch (e) {
-    console.log('Image compression failed:', e.message);
-  }
-};
 
-
+  const convertImageToBase64 = async (file, setImagestate) => {
+    try {
+      const compressedFile = await new ImageCompressor(file, {
+        quality: 0.8,
+        maxWidth: 800,
+        maxHeight: 600,
+        success(result) {
+          const reader = new FileReader();
+          reader.readAsDataURL(result);
+          reader.onloadend = () => {
+            setImagestate(reader.result);
+          };
+        },
+        error(e) {
+          console.log('Image compression failed:', e.message);
+        },
+      });
+    } catch (e) {
+      console.log('Image compression failed:', e.message);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -113,12 +113,31 @@ const convertImageToBase64 = async (file, setImagestate) => {
       });
   };
 
+const toolbarOptions = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    ['link', 'image', 'video'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ align: [] }],
+    [{ color: [] }, { background: [] }], // Text color and highlight
+    [{ font: [] }], // Font family
+    [{ size: [] }],//size
+     
+    ['clean'],
+  ],
+};
+
+
   return (
-    <div className="container" style={{ backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zUhvJROxV6FnpsaCSC9p7jZ_2U4Nz8ei9w&usqp=CAU")', backgroundSize: 'cover', height: '100%' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Create a Cooking Blog</h1>
+    <div
+      className="container"
+      style={{ backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zUhvJROxV6FnpsaCSC9p7jZ_2U4Nz8ei9w&usqp=CAU")', backgroundSize: 'cover', height: '100%' }}
+    >
+      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Create a Cooking Articles</h1>
       <form onSubmit={handleSubmit} style={{ maxWidth: '70%', margin: '0 auto' }}>
         <div style={{ marginBottom: '20px' }}>
-          <TextField 
+          <TextField
             label="Title"
             variant="outlined"
             value={title}
@@ -140,7 +159,7 @@ const convertImageToBase64 = async (file, setImagestate) => {
             </Button>
           </label>
         </div>
-        <div style={{ marginBottom: '20px' }}>
+               <div style={{ marginBottom: '20px' }}>
           <TextField
             label="Description"
             variant="outlined"
@@ -151,7 +170,7 @@ const convertImageToBase64 = async (file, setImagestate) => {
             fullWidth
           />
         </div>
-        
+
         {/* Add the fields for heading1, image1, description1, heading2, image2, description2, heading3, image3, description3, heading4, image4, description4, summary */}
         <div style={{ marginBottom: '20px' }}>
           <TextField
@@ -179,19 +198,16 @@ const convertImageToBase64 = async (file, setImagestate) => {
             </Button>
           </label>
         </div>
-        <div>
-          <TextField 
-            label="Description 1"
-            variant="outlined"
-            multiline
-            rows={20}
+        <div style={{ marginBottom: '20px' }}>
+          <ReactQuill
             value={description1}
-            onChange={(event) => setDescription1(event.target.value)}
-            fullWidth
-            
+            onChange={(value) => setDescription1(value)}
+            modules={toolbarOptions}
+            formats={['header', 'bold', 'italic', 'underline', 'strike', 'link', 'image', 'video', 'list', 'align', 'color', 'background', 'font','size']} // Include new formats
+            style={{ height: '200px' }}
           />
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{marginTop:'100px'}}>
           <TextField
             label="Heading 2"
             variant="outlined"
@@ -200,7 +216,7 @@ const convertImageToBase64 = async (file, setImagestate) => {
             fullWidth
           />
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{marginTop:'20px'}}>
           <input
             accept="image/*"
             id="image2"
@@ -218,17 +234,15 @@ const convertImageToBase64 = async (file, setImagestate) => {
           </label>
         </div>
         <div style={{ marginBottom: '20px' }}>
-          <TextField
-            label="Description 2"
-            variant="outlined"
-            multiline
-            rows={20}
+          <ReactQuill
             value={description2}
-            onChange={(event) => setDescription2(event.target.value)}
-            fullWidth
+            onChange={(value) => setDescription2(value)}
+            modules={toolbarOptions}
+            formats={['header', 'bold', 'italic', 'underline', 'strike', 'link', 'image', 'video', 'list', 'align', 'color', 'background', 'font','size']} // Include new formats
+            style={{ height: '200px' }}
           />
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{marginTop:'100px'}}>
           <TextField
             label="Heading 3"
             variant="outlined"
@@ -237,7 +251,7 @@ const convertImageToBase64 = async (file, setImagestate) => {
             fullWidth
           />
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{marginTop:'10px'}}>
           <input
             accept="image/*"
             id="image3"
@@ -249,23 +263,21 @@ const convertImageToBase64 = async (file, setImagestate) => {
             style={{ display: 'none' }}
           />
           <label htmlFor="image3">
-            <Button variant="contained" color="primary" component="span" fullWidth>
+            <Button style={{marginBottom:'10px'}} variant="contained" color="primary" component="span" fullWidth>
               Upload Image 3
             </Button>
           </label>
         </div>
-        <div style={{ marginBottom: '20px' }}>
-          <TextField
-            label="Description 3"
-            variant="outlined"
-            multiline
-            rows={20}
+        <div style={{ marginBottom: '50px',marginTop:'20px' }}>
+          <ReactQuill
             value={description3}
-            onChange={(event) => setDescription3(event.target.value)}
-            fullWidth
+            onChange={(value) => setDescription3(value)}
+            modules={toolbarOptions}
+            formats={['header', 'bold', 'italic', 'underline', 'strike', 'link', 'image', 'video', 'list', 'align', 'color', 'background', 'font','size']} // Include new formats
+            style={{ height: '200px' }}
           />
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '20px',marginTop:'100px' }}>
           <TextField
             label="Heading 4"
             variant="outlined"
@@ -292,29 +304,25 @@ const convertImageToBase64 = async (file, setImagestate) => {
           </label>
         </div>
         <div style={{ marginBottom: '20px' }}>
-          <TextField
-            label="Description 4"
-            variant="outlined"
-            multiline
-            rows={20}
+          <ReactQuill
             value={description4}
-            onChange={(event) => setDescription4(event.target.value)}
-            fullWidth
+            onChange={(value) => setDescription4(value)}
+            modules={toolbarOptions}
+            formats={['header', 'bold', 'italic', 'underline', 'strike', 'link', 'image', 'video', 'list', 'align', 'color', 'background', 'font','size']} // Include new formats
+            style={{ height: '200px' }}
           />
         </div>
-        <div style={{ marginBottom: '20px' }}>
-          <TextField
-            label="Summary"
-            variant="outlined"
-            multiline
-            rows={20}
+        <div style={{ marginTop: '100px' }}>
+          <ReactQuill
             value={summary}
-            onChange={(event) => setSummary(event.target.value)}
-            fullWidth
+            onChange={(value) => setSummary(value)}
+            modules={toolbarOptions}
+            formats={['header', 'bold', 'italic', 'underline', 'strike', 'link', 'image', 'video', 'list', 'align', 'color', 'background', 'font','size']} // Include new formats
+            style={{ height: '200px' }}
           />
         </div>
         {/* End of added fields */}
-        <Button variant="contained" color="primary" type="submit" fullWidth>
+        <Button style={{marginTop:'100px'}} variant="contained" color="primary" type="submit" fullWidth>
           Submit
         </Button>
       </form>

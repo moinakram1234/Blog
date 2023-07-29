@@ -10,7 +10,7 @@ import Contactus from './contactus';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Bottomarticlescards from './bottonarticlecards';
-
+import CommentSection from './comments';
 const useStyles = makeStyles((theme) => ({
   cardDescription: {
     display: '-webkit-box',
@@ -125,22 +125,19 @@ const Index = () => {
   };
 
   return (
-    <div>
-      <div>
-        <Navbar />
-      </div>
-
-      <div style={{ marginLeft:isMobile?'10px':'', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)', backgroundImage: `url('${Images.Background}')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', paddingBottom: '5%' }}>
-        <div>
-          <Typography variant="h4" className={classes.wlcminner} style={{ marginTop: isMobile ? '20%' : '0%' }}>
+    <div  style={{ height: '100vh', overflowX: 'hidden' }}>
+      <Navbar/>
+      <div style={{ height:isMobile?'': '100vh',marginLeft:isMobile?'0px':'', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)', backgroundImage: `url('${Images.Background}')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+      
+          <Typography variant="h4" className={classes.wlcminner} style={{}}>
             Welcome
           </Typography>
           <Typography variant="h5" className={classes.categoryTitle} style={{ marginTop: '100px' }}>
             Select Your Interested Articles:
           </Typography>
-        </div>
+     
 
-        <div style={{ marginLeft: isMobile ? '20%' : '-3%' }}>
+        
           <Slider {...sliderSettings}>
             {productData.map((product) => (
               <div key={product.name}>
@@ -148,14 +145,14 @@ const Index = () => {
                   style={{
                     width: isMobile ? '90%' : isSmallScreen ? '70%' : '40%',
                     height: isMobile ? '200px' : '300px',
-                    marginTop: isMobile ? '39px' : '95px',
+                    marginTop: isMobile ? '20px' : '70px',
                     marginLeft: isMobile ? '10px' : '30%',
                     boxShadow: '-5px 5px 1px 1px rgba(0.8, 0.6, 1, 0.3)',
                     borderRadius: '20px',
                   }}
                 >
                   <a href={`/blogs?category=${product.name}`}>
-                    <CardMedia component="img" height="100%" style={{ width: '100%' }} image={product.image} alt={product.name} />
+                    <CardMedia component="img" image={product.image} alt={product.name} />
                   </a>
                   <CardContent>
                     <Typography variant="h5" component="h2"></Typography>
@@ -164,12 +161,12 @@ const Index = () => {
               </div>
             ))}
           </Slider>
-        </div>
+     
       </div>
 
       <Bottomarticlescards />
 
-      <Grid container alignItems="center" style={{ marginLeft: '5%', marginTop: '37%' }}>
+      <Grid container alignItems="center" style={{ marginLeft: '10%', marginTop: '37%' }}>
         <Grid item>
           <a href={`/blogs?category=${productData[2].name}`}>
             <motion.div
@@ -208,6 +205,7 @@ const Index = () => {
       </Grid>
 
       <div>
+      {/* <CommentSection/> */}
         <h1>Contact US</h1>
       </div>
       <div>

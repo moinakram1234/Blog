@@ -46,8 +46,8 @@ function createTextIndexes() {
 
 // Define routes
 app.post('/insertblogs', (req, res) => {
-  const { title, description, image, schemaName, heading1, image1, description1, heading2, image2, description2, heading3, image3, description3, heading4, image4, description4, summary } = req.body;
-  
+  const { name, title, description, image, schemaName, heading1, image1, description1, heading2, image2, description2, heading3, image3, description3, heading4, image4, description4, summary } = req.body;
+  console.log(req.body);
   let selectedSchema;
   switch (schemaName) {
     case 'health':
@@ -92,12 +92,13 @@ app.post('/insertblogs', (req, res) => {
     image4,
     description4,
     summary,
+    name,
   });
 
   newBlog
     .save()
     .then(() => {
-      res.status(201).json({ message: 'Blog created successfully' });
+      res.status(201).json({ message: 'Blog created successfully',name });
       console.log('Blog created successfully');
     })
     .catch((err) => {
@@ -168,16 +169,16 @@ app.get('/allarticles', (req, res) => {
 });
 
 app.post('/singlearticle', (req, res) => {
-  const { id } = req.body;
-
+  const { name } = req.body;
+console.log(name)
   Promise.all([
-    Blog.findById(id).exec(),
-    BusinessBlog.findById(id).exec(),
-    SportBlog.findById(id).exec(),
-    TechnologyBlog.findById(id).exec(),
-    SkinBlog.findById(id).exec(),
-    HealthBlog.findById(id).exec(),
-    MuslimBlog.findById(id).exec()
+      Blog.findOne({ name }).exec(),
+    BusinessBlog.findOne({ name }).exec(),
+    SportBlog.findOne({ name }).exec(),
+    TechnologyBlog.findOne({ name }).exec(),
+    SkinBlog.findOne({ name }).exec(),
+    HealthBlog.findOne({ name }).exec(),
+    MuslimBlog.findOne({ name }).exec()
   ])
     .then(([blog, businessBlog, sportBlog, technologyBlog, skinBlog, healthBlog,MuslimBlog]) => {
       const article = blog || businessBlog || sportBlog || technologyBlog || skinBlog || healthBlog || MuslimBlog;

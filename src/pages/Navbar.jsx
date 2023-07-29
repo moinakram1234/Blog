@@ -73,12 +73,17 @@ function Navbar() {
               </MenuItem>
               <MenuItem onClick={handleMenuClose}>
                   <Link  style={{ color: 'black' }} className={classes.a} to="/blogs?category=sport">
-                Sports
+               Cooking
                 </Link>
               </MenuItem>
                <MenuItem onClick={handleMenuClose}>
                   <Link  style={{ color: 'black' }} className={classes.a} to="/blogs?category=skin">
-                Skin cares
+                Tourism
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleMenuClose}>
+                  <Link  style={{ color: 'black' }} className={classes.a} to="/blogs?category=muslim">
+                life of a muslim
                 </Link>
               </MenuItem>
             </Menu>
