@@ -1,26 +1,29 @@
 const mongoose = require('mongoose');
 
 const blogSchema = new mongoose.Schema({
- title: {
-    type: String,
-    required: true,
-  },
- 
+ title:String,
+  description:String,
+  image:String,
+  heading1: String,
+  image1: String,
+  description1: String,
+  heading2: String,
+  image2: String,
+  description2: String,
+  heading3: String,
+  image3: String,
+  description3: String,
+  heading4: String,
+  image4: String,
+  description4: String,
+  summary:String,
+  name:String,
 });
 
 const businessBlogSchema = new mongoose.Schema({
- title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+ title:String,
+  description:String,
+  image:String,
   heading1: String,
   image1: String,
   description1: String,
@@ -33,29 +36,14 @@ const businessBlogSchema = new mongoose.Schema({
   heading4: String,
   image4: String,
   description4: String,
-  summary: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
+  summary:String,
+  name:String,
 });
 
 const skinBlogSchema = new mongoose.Schema({
- title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+ title:String,
+  description:String,
+  image:String,
   heading1: String,
   image1: String,
   description1: String,
@@ -68,29 +56,14 @@ const skinBlogSchema = new mongoose.Schema({
   heading4: String,
   image4: String,
   description4: String,
-  summary: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
+  summary:String,
+  name:String,
 });
 
 const sportBlogSchema = new mongoose.Schema({
- title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+ title:String,
+  description:String,
+  image:String,
   heading1: String,
   image1: String,
   description1: String,
@@ -103,29 +76,14 @@ const sportBlogSchema = new mongoose.Schema({
   heading4: String,
   image4: String,
   description4: String,
-  summary: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
+  summary:String,
+  name:String,
 });
 
 const healthBlogSchema = new mongoose.Schema({ 
- title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+ title:String,
+  description:String,
+  image:String,
   heading1: String,
   image1: String,
   description1: String,
@@ -138,30 +96,14 @@ const healthBlogSchema = new mongoose.Schema({
   heading4: String,
   image4: String,
   description4: String,
-  summary: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-    
-  },
+  summary: String,
+  name: String
 });
 
 const technologyBlogSchema = new mongoose.Schema({
- title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+ title:String,
+  description:String,
+  image:String,
   heading1: String,
   image1: String,
   description1: String,
@@ -174,28 +116,13 @@ const technologyBlogSchema = new mongoose.Schema({
   heading4: String,
   image4: String,
   description4: String,
-  summary: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
+  summary:String,
+  name:String,
 });
 const MuslimBlogschema = new mongoose.Schema({ 
- title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
+ title:String,
+  description:String,
+  image:String,
   heading1: String,
   image1: String,
   description1: String,
@@ -208,14 +135,8 @@ const MuslimBlogschema = new mongoose.Schema({
   heading4: String,
   image4: String,
   description4: String,
-  summary: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
+  summary:String,
+  name:String,
 });
 
 const UserSchema = new mongoose.Schema({

@@ -3,6 +3,7 @@ import { TextField, List, ListItem, ListItemText } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 
 const SearchBar = () => {
+   const REACT_APP_URL = process.env.REACT_APP_URL;
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
@@ -11,7 +12,7 @@ const SearchBar = () => {
     setQuery(inputValue);
 
     try {
-      const response = await fetch(`http://localhost:5000/suggestions?query=${encodeURIComponent(inputValue)}`);
+      const response = await fetch(`${REACT_APP_URL}/suggestions?query=${encodeURIComponent(inputValue)}`);
       if (!response.ok) {
         throw new Error('Request failed');
       }
@@ -39,7 +40,7 @@ const SearchBar = () => {
         renderOption={(option) => (
           <ListItem
             component="a"
-            href={`/displaysearcharticle?data=${option._id}`}
+            href={`/articledetails/${option.name}`}
            
           >
             <ListItemText primary={option.title} />

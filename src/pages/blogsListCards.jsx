@@ -39,12 +39,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductList = () => {
+   const REACT_APP_URL = process.env.REACT_APP_URL;
   const classes = useStyles();
   const [productData, setProductData] = useState([]);
   const [serverRes, setServerRes] = useState(null);
  const navigate = useNavigate();
   useEffect(() => {
-    fetch('http://localhost:5000/allarticles', {
+    fetch(`${REACT_APP_URL}/allarticles`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -56,21 +57,8 @@ const ProductList = () => {
       });
   }, []);
 
-  const handleClick = (_id) => {
-    fetch('http://localhost:5000/singlearticle', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: _id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Article details response:', data);
-  navigate('/articledetails', { state: { articleData: data } });   })
-      .catch((error) => {
-        console.error('Error requesting article details:', error);
-      });
+  const handleClick = (name) => {
+ navigate(`/articledetails/${encodeURIComponent(name)}`);
   };
 
   return (
@@ -84,7 +72,7 @@ const ProductList = () => {
             {productData.map((product, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={product.title} className={index === 4 ? classes.centeredCard : ''}>
             
-                    <Card className={classes.card}  onClick={() => handleClick(product._id)}>
+                    <Card className={classes.card}  onClick={() => handleClick(product.name)}>
                   <CardMedia style={{width:500}}
   className={classes.cardImage}
   image={product.image}

@@ -13,7 +13,6 @@ import Insertskinblog from './pages/crudoperation/insertskin';
 import Inserttechnologyblog from './pages/crudoperation/inserttechnology';
 import Insertsportblog from './pages/crudoperation/insertsport';
 import Displayblogswithselectedcategories from './pages/displaymenublogs';
-import Displaysearcharticle from './pages/displaysercharticle';
 import LoginForm from './login/login';
 import Signup from './login/signup';
 import OTP from './login/otp';
@@ -24,7 +23,7 @@ return (
 	<BrowserRouter>
 	<Routes>
 		<Route exact  path='/' element={<Home/>} />
-			<Route path="/articledetails" element={< ArticleDetails />} />
+			<Route path="/articledetails/:name" element={<ArticleDetails />} />
 			<Route exact path='/aboutus' element={< AboutUs />} />
 			<Route exact path='/articles' element={<ProductList />} />
 			<Route exact path='/admin' element={<AdminPanel />} />
@@ -36,7 +35,6 @@ return (
 			<Route exact path='/insertsportblog' element={<Insertsportblog />} />
 			<Route exact path='/insertmuslimblog' element={<InsertMuslim/>} />
 			<Route exact path='/blogs' element={<Displayblogswithselectedcategories />} />
-			<Route exact path='/displaysearcharticle' element={<Displaysearcharticle />} />
 			<Route exact path='/login' element={<LoginForm />} />
 			<Route exact path='/signup' element={<Signup />} />
 			<Route exact path='/otp' element={<OTP />} />

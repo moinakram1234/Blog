@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const OTP = () => {
   const classes = useStyles();
-
+const REACT_APP_URL = process.env.REACT_APP_URL;
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const data = queryParams.get('email');
@@ -53,7 +53,7 @@ const OTP = () => {
   const sendOTP = async () => {
     try {
       // Send the email to the server
-      const response = await fetch('http://localhost:5000/sendOTP', {
+      const response = await fetch(`${REACT_APP_URL}/sendOTP`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -75,7 +75,7 @@ const OTP = () => {
   const handleVerifyOTP = async () => {
     try {
       // Verify the OTP on the server
-      const response = await fetch('http://localhost:5000/verifyOTP', {
+      const response = await fetch(`${REACT_APP_URL}/verifyOTP`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp }),

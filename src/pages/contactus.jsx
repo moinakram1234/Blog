@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyCard = () => {
+   const URL = process.env.URL;
   const classes = useStyles();
   const emailLink = 'mailto:noorsyen@gmail.com'; // Use mailto: to open the default email client
 

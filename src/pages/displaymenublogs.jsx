@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Displayblogswithselectedcategories = () => {
+   const REACT_APP_URL = process.env.REACT_APP_URL;
    const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -49,7 +50,7 @@ const Displayblogswithselectedcategories = () => {
 
   useEffect(() => {
  
-    fetch('http://localhost:5000/individualcategory', {
+    fetch(`${REACT_APP_URL}/individualcategory`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,23 +67,9 @@ const Displayblogswithselectedcategories = () => {
       });
   }, []);
 
-  const handleClick = (_id) => {
-   
-    fetch('http://localhost:5000/singlearticle', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: _id }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Article details response:', data);
-       navigate('/articledetails', { state: { articleData: data } });
-      })
-      .catch((error) => {
-        console.error('Error requesting article details:', error);
-      });
+  const handleClick = (name) => {
+    
+navigate(`/articledetails/${encodeURIComponent(name)}`);
   };
 
    return (
@@ -98,7 +85,7 @@ const Displayblogswithselectedcategories = () => {
             {productData.map((product, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={product.title} className={index === 4 ? classes.centeredCard : ''}>
             
-                    <Card className={classes.card}  onClick={() => handleClick(product._id)}>
+                    <Card className={classes.card}  onClick={() => handleClick(product.name)}>
                   <CardMedia
   className={classes.cardImage}
   image={product.image}

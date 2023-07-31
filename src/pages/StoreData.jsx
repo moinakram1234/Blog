@@ -5,7 +5,7 @@ const StoreBloginfo = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
-
+  const REACT_APP_URL = process.env.REACT_APP_URL;
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -31,7 +31,7 @@ const StoreBloginfo = () => {
     event.preventDefault();
 
   
- fetch('https://localhost:5000/insertblogs', {
+ fetch(`${REACT_APP_URL}/insertblogs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

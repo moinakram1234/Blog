@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button,useMediaQuery } from '@material-ui/core';
 import ImageCompressor from 'image-compressor.js';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const InsertBlog = () => {
   const [title, setTitle] = useState('');
+  const [name, setname] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [schemaName, setSchemaName] = useState('muslim');
@@ -22,7 +23,8 @@ const InsertBlog = () => {
   const [image4, setImage4] = useState(null);
   const [description4, setDescription4] = useState('');
   const [summary, setSummary] = useState('');
-
+    const isMobile = useMediaQuery('(max-width:600px)');
+const REACT_APP_URL = process.env.REACT_APP_URL;
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -58,12 +60,13 @@ const InsertBlog = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    fetch('http://localhost:5000/insertblogs', {
+    fetch(`${REACT_APP_URL}/insertblogs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+       name,
         title,
         description,
         image,
@@ -90,6 +93,8 @@ const InsertBlog = () => {
         return response.json(); // Parse the data as JSON
       })
       .then((data) => {
+
+      
         setDescription('');
         setTitle('');
         setImage(null);
@@ -134,8 +139,17 @@ const toolbarOptions = {
       className="container"
       style={{ backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zUhvJROxV6FnpsaCSC9p7jZ_2U4Nz8ei9w&usqp=CAU")', backgroundSize: 'cover', height: '100%' }}
     >
-      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Create a Muslim Articles</h1>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Create a Articles for Muslim</h1>
       <form onSubmit={handleSubmit} style={{ maxWidth: '70%', margin: '0 auto' }}>
+     <div style={{ marginBottom: '20px' }}>
+          <TextField
+            label="Enter router name"
+            variant="outlined"
+            value={name}
+            onChange={(event) => setname(event.target.value)}
+            fullWidth
+          />
+        </div>
         <div style={{ marginBottom: '20px' }}>
           <TextField
             label="Title"
@@ -207,7 +221,7 @@ const toolbarOptions = {
             style={{ height: '200px' }}
           />
         </div>
-        <div style={{marginTop:'100px'}}>
+        <div style={{marginTop:isMobile?'150px':'100px'}}>
           <TextField
             label="Heading 2"
             variant="outlined"
@@ -242,7 +256,7 @@ const toolbarOptions = {
             style={{ height: '200px' }}
           />
         </div>
-        <div style={{marginTop:'100px'}}>
+        <div style={{marginTop:isMobile?'150px':'100px'}}>
           <TextField
             label="Heading 3"
             variant="outlined"
@@ -277,7 +291,7 @@ const toolbarOptions = {
             style={{ height: '200px' }}
           />
         </div>
-        <div style={{ marginBottom: '20px',marginTop:'100px' }}>
+        <div style={{ marginBottom: '20px',marginTop:isMobile?'150px':'100px' }}>
           <TextField
             label="Heading 4"
             variant="outlined"
@@ -303,7 +317,7 @@ const toolbarOptions = {
             </Button>
           </label>
         </div>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '20px', }}>
           <ReactQuill
             value={description4}
             onChange={(value) => setDescription4(value)}
@@ -312,7 +326,7 @@ const toolbarOptions = {
             style={{ height: '200px' }}
           />
         </div>
-        <div style={{ marginTop: '100px' }}>
+        <div style={{ marginTop:isMobile?'150px':'100px' }}>
           <ReactQuill
             value={summary}
             onChange={(value) => setSummary(value)}

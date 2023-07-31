@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Signup = () => {
+  const REACT_APP_URL = process.env.REACT_APP_URL;
   const classes = useStyles();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -80,7 +81,7 @@ const Signup = () => {
     }
 
     // Make server request to http://localhost:5000/signup with email, password, firstName, and lastName
-    fetch('http://localhost:5000/signup', {
+    fetch(`${REACT_APP_URL}/signup`, {
       method: 'POST',
       body: JSON.stringify({ email, password, firstName, lastName }),
       headers: {

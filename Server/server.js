@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const translate = require('translate-google');
 
 //const crypto = require('crypto');
 const { Blog, BusinessBlog, SkinBlog, SportBlog, HealthBlog, TechnologyBlog,User,MuslimBlog} = require('./Schema');
@@ -47,8 +48,8 @@ function createTextIndexes() {
 // Define routes
 app.post('/insertblogs', (req, res) => {
   const { name, title, description, image, schemaName, heading1, image1, description1, heading2, image2, description2, heading3, image3, description3, heading4, image4, description4, summary } = req.body;
-  console.log(req.body);
   let selectedSchema;
+  console.log(name)
   switch (schemaName) {
     case 'health':
       selectedSchema = HealthBlog;
@@ -139,7 +140,7 @@ app.post('/individualcategory', (req, res) => {
 
   selectedSchema
     .find()
-    .select('title description image')
+    .select('title description image name')
     .exec()
     .then((data) => {
       res.status(200).json(data);
@@ -151,13 +152,13 @@ app.post('/individualcategory', (req, res) => {
 
 app.get('/allarticles', (req, res) => {
   Promise.all([
-    Blog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
-    BusinessBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
-    SportBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
-    TechnologyBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
-    SkinBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
-    HealthBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec(),
-    MuslimBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary').exec()
+    Blog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary name').exec(),
+    BusinessBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary name').exec(),
+    SportBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary name').exec(),
+    TechnologyBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary name').exec(),
+    SkinBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary name').exec(),
+    HealthBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary name').exec(),
+    MuslimBlog.find().select('title description image heading1 image1 description1 heading2 image2 description2 heading3 image3 description3 heading4 image4 description4 summary name').exec()
   ])
     .then(([blogs, businesses, sports, technologies, skins, healthBlogs,Muslim]) => {
       const combinedData = [...blogs, ...businesses, ...sports, ...technologies, ...skins, ...healthBlogs, ...Muslim];
@@ -167,27 +168,26 @@ app.get('/allarticles', (req, res) => {
       res.status(500).json({ error: 'Failed to fetch articles', details: err });
     });
 });
-
 app.post('/singlearticle', (req, res) => {
   const { name } = req.body;
-console.log(name)
+
+
   Promise.all([
-      Blog.findOne({ name }).exec(),
-    BusinessBlog.findOne({ name }).exec(),
-    SportBlog.findOne({ name }).exec(),
-    TechnologyBlog.findOne({ name }).exec(),
-    SkinBlog.findOne({ name }).exec(),
-    HealthBlog.findOne({ name }).exec(),
-    MuslimBlog.findOne({ name }).exec()
+    Blog.findOne({ name: name }).exec(),
+    BusinessBlog.findOne({ name: name }).exec(),
+    SportBlog.findOne({ name: name }).exec(),
+    TechnologyBlog.findOne({ name: name }).exec(),
+    SkinBlog.findOne({ name: name }).exec(),
+    HealthBlog.findOne({ name: name }).exec(),
+    MuslimBlog.findOne({ name: name }).exec(),
   ])
-    .then(([blog, businessBlog, sportBlog, technologyBlog, skinBlog, healthBlog,MuslimBlog]) => {
+    .then(([blog, businessBlog, sportBlog, technologyBlog, skinBlog, healthBlog, MuslimBlog]) => {
       const article = blog || businessBlog || sportBlog || technologyBlog || skinBlog || healthBlog || MuslimBlog;
 
       if (!article) {
         return res.status(404).json({ error: 'Article not found' });
       }
 
-      console.log(id);
       res.send(JSON.stringify(article));
     })
     .catch((err) => {
@@ -199,13 +199,13 @@ app.get('/suggestions', (req, res) => {
   const { query } = req.query;
 
   Promise.all([
-    Blog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
-    BusinessBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
-    SportBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
-    TechnologyBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
-    SkinBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
-    HealthBlog.find({ title: { $regex: query, $options: 'i' } }).select('title'),
-    MuslimBlog.find({ title: { $regex: query, $options: 'i' } }).select('title')
+    Blog.find({ title: { $regex: query, $options: 'i' } }).select('title name'),
+    BusinessBlog.find({ title: { $regex: query, $options: 'i' } }).select('title name'),
+    SportBlog.find({ title: { $regex: query, $options: 'i' } }).select('title name'),
+    TechnologyBlog.find({ title: { $regex: query, $options: 'i' } }).select('title name'),
+    SkinBlog.find({ title: { $regex: query, $options: 'i' } }).select('title name'),
+    HealthBlog.find({ title: { $regex: query, $options: 'i' } }).select('title name'),
+    MuslimBlog.find({ title: { $regex: query, $options: 'i' } }).select('title name')
   ])
     .then(([blogSuggestions, businessBlogSuggestions, sportBlogSuggestions, technologyBlogSuggestions, skinBlogSuggestions, healthBlogSuggestions,MuslimBlogsuggestion]) => {
       const suggestions = [
@@ -343,6 +343,24 @@ const generateOTP = () => {
   return OTP;
 };
 
+
+
+// Define the /translate route
+app.post('/translate', async (req, res) => {
+  const { text, inputLanguage, targetLanguage } = req.body;
+
+  if (!text || !inputLanguage || !targetLanguage) {
+    return res.status(400).json({ error: 'Missing required parameters.' });
+  }
+
+  try {
+    const translatedText = await translate(text, { from: inputLanguage, to: targetLanguage });
+    return res.json({ translatedText });
+  } catch (error) {
+    console.error('Error translating the text:', error);
+    return res.status(500).json({ error: 'Translation failed.' });
+  }
+});
 
 
 function startServer() {

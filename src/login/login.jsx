@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
+   const REACT_APP_URL = process.env.REACT_APP_URL;
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,7 +60,7 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Make server request to http://localhost:5000/login with email and password
-    fetch('http://localhost:5000/login', {
+    fetch(`${REACT_APP_URL} /login`, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {

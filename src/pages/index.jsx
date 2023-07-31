@@ -10,7 +10,7 @@ import Contactus from './contactus';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Bottomarticlescards from './bottonarticlecards';
-import CommentSection from './comments';
+
 const useStyles = makeStyles((theme) => ({
   cardDescription: {
     display: '-webkit-box',
@@ -132,7 +132,7 @@ const Index = () => {
           <Typography variant="h4" className={classes.wlcminner} style={{}}>
             Welcome
           </Typography>
-          <Typography variant="h5" className={classes.categoryTitle} style={{ marginTop: '100px' }}>
+          <Typography variant="h5" className={classes.categoryTitle} style={{ marginTop:isMobile?'45px': '100px',fontSize:isMobile?'15px':'' }}>
             Select Your Interested Articles:
           </Typography>
      
@@ -145,7 +145,7 @@ const Index = () => {
                   style={{
                     width: isMobile ? '90%' : isSmallScreen ? '70%' : '40%',
                     height: isMobile ? '200px' : '300px',
-                    marginTop: isMobile ? '20px' : '70px',
+                    marginTop: isMobile ? '0px' : '70px',
                     marginLeft: isMobile ? '10px' : '30%',
                     boxShadow: '-5px 5px 1px 1px rgba(0.8, 0.6, 1, 0.3)',
                     borderRadius: '20px',
@@ -166,7 +166,7 @@ const Index = () => {
 
       <Bottomarticlescards />
 
-      <Grid container alignItems="center" style={{ marginLeft: '10%', marginTop: '37%' }}>
+      <Grid container alignItems="center" style={{ marginLeft: '7%', marginTop: '37%' }}>
         <Grid item>
           <a href={`/blogs?category=${productData[2].name}`}>
             <motion.div
@@ -205,7 +205,6 @@ const Index = () => {
       </Grid>
 
       <div>
-      {/* <CommentSection/> */}
         <h1>Contact US</h1>
       </div>
       <div>

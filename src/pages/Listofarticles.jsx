@@ -12,13 +12,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ArticleList = () => {
+   const REACT_APP_URL = process.env.REACT_APP_URL;
   const [productData, setProductData] = useState([]);
   const isMobile = useMediaQuery('(max-width:600px)');
   const [serverRes, setServerRes] = useState(null);
   const classes = useStyles();
 
   useEffect(() => {
-    fetch('http://localhost:5000/allarticles', {
+    fetch(`${REACT_APP_URL}/allarticles`, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -31,7 +32,7 @@ const ArticleList = () => {
   }, []);
 
   const handleClick = (_id) => {
-    fetch('http://localhost:5000/singlearticle', {
+    fetch(`${REACT_APP_URL}/singlearticle`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
