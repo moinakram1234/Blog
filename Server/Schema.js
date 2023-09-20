@@ -146,6 +146,30 @@ const UserSchema = new mongoose.Schema({
   lastName:String,
   otp: String,
 });
+const order = new mongoose.Schema({
+  items: [{
+    id: Number,
+    name: String,
+    price: Number,
+    quantity: Number,
+  }],
+  name: String,
+  phone: String,
+  address: String,
+  paymentMethod: String,
+  paymentScreenshot: String,
+});
+const store = new mongoose.Schema({
+    id: Number,
+    name: String,
+    price: Number,
+    image:String
+});
+const productSchema = new mongoose.Schema({
+  amazonAffiliateLink: { type: String, required: true },
+});
+
+const AmazonProduct = mongoose.model('AmazonProduct', productSchema);
 const User = mongoose.model('User', UserSchema);
 const Blog = mongoose.model('Blog', blogSchema);
 const BusinessBlog = mongoose.model('BusinessBlog', businessBlogSchema);
@@ -154,6 +178,8 @@ const SportBlog = mongoose.model('SportBlog', sportBlogSchema);
 const HealthBlog = mongoose.model('HealthBlog', healthBlogSchema);
 const TechnologyBlog = mongoose.model('TechnologyBlog', technologyBlogSchema);
 const MuslimBlog = mongoose.model('MuslimBlog', MuslimBlogschema);
+const Order = mongoose.model('customer-order', order)
+const Store=mongoose.model('Store',store)
 module.exports = {
   Blog,
   BusinessBlog,
@@ -162,5 +188,8 @@ module.exports = {
   HealthBlog,
   TechnologyBlog,
   User,
-  MuslimBlog
+  MuslimBlog,
+  Order,
+  Store,
+   AmazonProduct
 };

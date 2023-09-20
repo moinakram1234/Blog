@@ -94,7 +94,7 @@ return (
                   <CardMedia className={classes.cardImage} image={product.image} alt={product.title} />
             
                 <CardContent>
-                  <Typography variant="h5" component="h2">
+                  <Typography variant="h5" component="h2" style={{color:'green'}}>
                     {product.title}
                   </Typography>
                   <Typography variant="body2" component="p" className={classes.cardDescription}>

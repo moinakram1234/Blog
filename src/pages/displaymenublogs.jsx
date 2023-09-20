@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Button, makeStyles } from '@material-ui/core';
+import { Grid, Card, CardMedia, CardContent, Typography, Button, makeStyles,useMediaQuery } from '@material-ui/core';
 import Navbar from './Navbar';
 import Contactus from './contactus';
 import { useLocation } from 'react-router-dom';
@@ -45,6 +45,7 @@ const Displayblogswithselectedcategories = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const category = searchParams.get('category');
+  const ismobile =useMediaQuery('(max-width:600px)')
   const [productData, setProductData] = useState([]);
   const classes = useStyles();
 
@@ -79,7 +80,7 @@ navigate(`/articledetails/${encodeURIComponent(name)}`);
       </div>
       
  
-        <div style={{ marginTop:'6%' }}>
+        <div style={{ marginTop:ismobile? '15%':'6%' }}>
              <Card className={classes.parentCard}>
           <Grid container spacing={3} alignItems="stretch" justify="center">
             {productData.map((product, index) => (

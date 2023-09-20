@@ -12,7 +12,8 @@ const Translation = (props) => {
   const [isToggle, setIsToggle] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const translatecolor = props.changetheme ? 'white' : 'blue';
-   const ismobile = useMediaQuery('(max-width:600px)');
+  const ismobile = useMediaQuery('(max-width:600px)');
+  const REACT_APP_URL = process.env.REACT_APP_URL;
   const handleButtonClick = () => {
     setShowPopup(true);
   };
@@ -32,7 +33,7 @@ const Translation = (props) => {
         targetLanguage: targetLanguage,
       };
 
-      axios.post('http://localhost:5000/translate', requestBody)
+      axios.post(`${REACT_APP_URL}/translate`, requestBody)
         .then(response => {
           setTranslationResult(response.data.translatedText);
         })

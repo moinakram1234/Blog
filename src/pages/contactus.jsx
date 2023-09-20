@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginLeft: theme.spacing(3),
-    color:'#0091f0',
+    color:'green',
     borderRadius:'10px',
     cursor: 'pointer', // Add a cursor to indicate that the icon is clickable
      '&:hover': {

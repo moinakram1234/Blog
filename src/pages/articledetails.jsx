@@ -8,6 +8,7 @@ import 'react-quill/dist/quill.snow.css';
 import Contactus from './contactus'
 import Navbar from './Navbar';
 import Translation from './translater';
+import RelatedArticles from './RelatedArticles';
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '5% auto',
@@ -45,17 +46,20 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px 20px',
   },
   sectionHeading: {
+    color:'green',
     fontWeight: 'bold',
     fontSize: '20px',
     marginBottom: '5px',
     marginTop: '5%',
   },
-  image: {
-    width: '100%',
+image: {
+    width: '60%',
     objectFit: 'contain',
-    marginBottom: '20px',
-    borderRadius: '10px',
-    marginTop: '5%',
+  marginBottom: '20px',
+    marginTop:'20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'block',
   },
   description: {
     fontSize: '12px',
@@ -97,8 +101,13 @@ const useStyles = makeStyles((theme) => ({
       
       color: 'black',
       '& img': {
-        maxWidth: '100%', // Limit the width of images to fit the editor
-        height: 'auto', // Maintain the aspect ratio
+        width: '60%',
+    objectFit: 'contain',
+  marginBottom: '20px',
+    marginTop:'20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'block',
       },
     },
     '& .ql-toolbar': {
@@ -122,8 +131,13 @@ const useStyles = makeStyles((theme) => ({
       
        color: '#ffffff',
       '& img': {
-        maxWidth: '100%', // Limit the width of images to fit the editor
-        height: 'auto', // Maintain the aspect ratio
+        width: '60%',
+    objectFit: 'contain',
+  marginBottom: '20px',
+    marginTop:'20px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'block',
       },
     },
     '& .ql-toolbar': {
@@ -153,6 +167,8 @@ const ArticleDetails = () => {
   const [changetheme, setTheme] = useState(false);
   const { name } = useParams();
   const ismobile = useMediaQuery('(max-width:600px)');
+    const [productData, setProductData] = useState([]);
+    const [category, setcategory] = useState('');
   useEffect(() => {
     
     fetch(`${REACT_APP_URL}/singlearticle`, {
@@ -165,13 +181,37 @@ const ArticleDetails = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log('Article details response:', data);
+        setcategory(data.schema);
         setArticleData(data);
+          window.scrollTo(0, 0); // Scroll to the top of the page
       })
       .catch((error) => {
         console.error('Error requesting article details:', error);
       });
+    
+   
   }, [name]); // Only re-run the effect if _id changes
 
+  useEffect(() => {
+    // Fetch related articles only when category is available
+    if (category) {
+      fetch(`${REACT_APP_URL}/individualcategory`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ selectcategory: category }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Received data:', data);
+          setProductData(data);
+        })
+        .catch((error) => {
+          console.error('Error fetching product data:', error);
+        });
+    }
+  }, [category]);
 const handleThemeToggle = () => {
     setTheme((prevState) => !prevState);
   };
@@ -186,7 +226,7 @@ const handleThemeToggle = () => {
          <button style={{marginLeft:ismobile?'80%':'116%',marginTop:ismobile?'20%':'5%'}} onClick={handleThemeToggle}>
           {changetheme ?<WbSunnyIcon/>:<DarkIcon/> }
         </button>
-      <Typography variant="h5" style={{ fontWeight: 'bold', marginBottom: '10px' }}>
+      <Typography variant="h5" style={{ fontWeight: 'bold', marginBottom: '10px',  color:'green', }}>
         {articleData.title}
       </Typography>
 
@@ -310,7 +350,7 @@ const handleThemeToggle = () => {
 
 
       <Typography variant="body1" className={changetheme?classes.summarydark:classes.summary}>
-        <h3>
+        <h3 style={{  color:'green',}}>
          Summary:</h3><div>  <ReactQuill
                 value={articleData.summary}
                 readOnly={true} // Prevent editing for the description
@@ -318,9 +358,16 @@ const handleThemeToggle = () => {
              theme={"bubble"}
               /></div>
       </Typography>
-  
+      
+      </div>
+      <h2 style={{  color:'green',}}>Related Articles</h2>
+      
+       <RelatedArticles productData={productData} changetheme={changetheme} />
+      <Contactus />
+    
+   
     </div>
-       <Contactus/></div>
+    
   );
 };
 

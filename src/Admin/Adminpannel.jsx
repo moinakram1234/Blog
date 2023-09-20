@@ -1,151 +1,285 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
-import NavbarAdmin from './navbar';
-import { useLocation } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Insertblog from '../pages/crudoperation/insertBlog'
+import Insertmuslim from '../pages/crudoperation/insertmuslimblog'
+import Insertbusiness from '../pages/crudoperation/insertbusinessblog'
+import Inserthealth from '../pages/crudoperation/inserthealth'
+import InsertTourism from '../pages/crudoperation/insertskin'
+import Insertcooking from '../pages/crudoperation/insertsport'
+import Inserttechnology from '../pages/crudoperation/inserttechnology'
+import Store from './Store';
+import PieActiveArc from './piechart';
+import {
+  AddCircleOutline as AddCircleOutlineIcon,
+  Update as UpdateIcon,
+  DeleteForever as DeleteForeverIcon,
+   Fastfood as FastfoodIcon,
+  LocalHospital as LocalHospitalIcon,
+  Business as BusinessIcon,
+  Code as CodeIcon,
+   FlightTakeoff as FlightTakeoffIcon,
+} from '@material-ui/icons';
+
+import { Card, CardContent, Grid } from '@material-ui/core';
+
 const useStyles = makeStyles((theme) => ({
-  adminButton: {
-    marginRight: theme.spacing(1),
-    background: 'linear-gradient(to right, #FFD700, #FFA500)',
-    color: '#FFF',
-    '&:hover': {
-      background: 'linear-gradient(to right, #FFA500, #FFD700)',
-    },
+  mainBar: {
+    width: '100%',
+    height: '70px',
+    background: 'linear-gradient(to right, #4b79a1, #283e51)',
+    display: 'flex',
+    justifyContent: 'start',
+    alignItems: 'center',
+    padding: '0 50px',
+    color: 'white',
+    fontSize: '18px',
+    fontWeight: 'bold',
   },
+ scrollableContainer: {
+    marginTop: theme.spacing(2),
+    maxHeight: 'calc(100vh - 100px)', // Adjust the maxHeight to your desired value
+    overflowY: 'auto', // Enable vertical scrolling
+    backgroundColor: 'white',
+   marginRight:theme.spacing(140),
+    borderRadius: '10px',
+    display: 'flex',
+    flexWrap: 'wrap',
+   
+    padding: theme.spacing(2),
+  },
+  cardRoot: {
+    marginTop: '10%',
+    margin: theme.spacing(1),
+    textAlign: 'center',
+    padding: theme.spacing(1),
+    width: '85%',
+ 
+  },
+
   deleteButton: {
     background: 'linear-gradient(to right, #FF0000, #B22222)',
+    width:'100%',
     color: '#FFF',
     '&:hover': {
       background: 'linear-gradient(to right, #B22222, #FF0000)',
     },
   },
-  pageContainer: {
-    backgroundImage:
-      'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zUhvJROxV6FnpsaCSC9p7jZ_2U4Nz8ei9w&usqp=CAU")',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+
+   dashButton: {
+    background: 'black',
+    width:'100%',
+    color: 'white',
+    '&:hover': {
+      background: 'linear-gradient(to right, #B22222, #FF0000)',
+    },
+  },
+  displayCardButton: {
+  
+    marginTop: theme.spacing(2),
+    background: 'linear-gradient(to right, #FFD700, #FFA500)',
+    color: '#FFF',
+    '&:hover': {
+      background: 'linear-gradient(to right, #FFA500, #FFD700)',
+    },
+    
+  },
+    pieChartContainer: {
+
+    maxHeight: 'calc(100vh - 100px)', // Adjust the maxHeight to your desired value
+    overflowY: 'auto', // Enable vertical scrolling
+    backgroundColor: 'white',
+    position:'absolute',
+      marginTop: '-40%',
+      marginLeft:'20%',
+        borderRadius: '10px',
+      display: 'flex',
+      flexWrap: 'wrap',
+      
   },
 }));
 
 const AdminPanel = () => {
-  //  const location = useLocation();
-  // const queryParams = new URLSearchParams(location.search);
-  // const data = queryParams.get('checker');
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [checker,setchecker] =useState(true)
-  useEffect(() => {
-   // setchecker(data)
-    const handleBeforeUnload = (event) => {
-      event.preventDefault();
-      // Custom logic here
-      // You can show a confirmation message or perform necessary actions
-      // Returning an empty string is necessary to trigger the browser's default dialog
-      event.returnValue = '';
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  const [displayCard, setDisplayCard] = useState(false);
+  const [selectedPage, setseleclpage] = useState('dashboard');
+   const [SwitchToggle, setSwitchToggle] = useState('Admin');
   const handleButtonClick = (action) => {
     // Handle button click based on the action
     switch (action) {
-      case 'insert-blog':
-        // Logic for inserting a blog
+       case 'dashboard':
+        setseleclpage(action);
         break;
-      case 'update-blog-news':
-        // Logic for updating blog news
+      case 'insert-Article':
+        setseleclpage(action);
         break;
-      case 'insert-business-blog':
-        // Logic for inserting a business blog
+      case 'insert-muslim-Article':
+       setseleclpage(action);
         break;
-      case 'insert-health-blog':
-        // Logic for inserting a health blog
+      case 'insert-business-Article':
+       setseleclpage(action);
         break;
-      case 'insert-technology-blog':
-        // Logic for inserting a technology blog
+      case 'insert-health-Article':
+    setseleclpage(action);
         break;
-      case 'insert-sport-blog':
-        // Logic for inserting a sport blog
+      case 'insert-technology-Article':
+        setseleclpage(action);
         break;
-      case 'insert-skin-care-blog':
-        // Logic for inserting a skin care blog
+      case 'insert-tourism-Article':
+       setseleclpage(action);
         break;
-      case 'delete-blog':
-        // Logic for deleting a blog
+      case 'insert-cooking-Article':
+        setseleclpage(action);
+        break;
+      case 'manage':
+      setseleclpage(action);
         break;
       default:
         break;
     }
-    setAnchorEl(null);
   };
 
+  const handleDisplayCardButtonClick = () => {
+    setDisplayCard(!displayCard);
+  };
+  const HandleStore = () => {
+  setSwitchToggle('store')
+  }
+    const HandleAdmin = () => {
+  setSwitchToggle('Admin')
+}
+
   return (
-    <>
-    {checker?<div className={classes.pageContainer}>
-      <NavbarAdmin />
-      <h1 style={{ marginTop: '-30%', marginLeft: '0%', position: 'absolute' }}>Admin Panel</h1>
-      <Button
-        aria-controls="insert-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-        className={classes.adminButton}
-      >
-        Insert
-      </Button>
-      <Menu id="insert-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <Link style={{ textDecoration: 'none', color: 'black' }} to="/addarticles">
-          <MenuItem>Blog</MenuItem>
-        </Link>
-        <Link style={{ textDecoration: 'none', color: 'black' }} to="/insertbusinessblog">
-          <MenuItem>Business Blog</MenuItem>
-        </Link>
-        <Link style={{ textDecoration: 'none', color: 'black' }} to="/inserthealthblog">
-          <MenuItem>Health Blog</MenuItem>
-        </Link>
-        <Link style={{ textDecoration: 'none', color: 'black' }} to="/inserttechnologyblog">
-          <MenuItem>Technology Blog</MenuItem>
-        </Link>
-        <Link style={{ textDecoration: 'none', color: 'black' }} to="/insertsportblog">
-          <MenuItem>Sport Blog</MenuItem>
-        </Link>
-        <Link style={{ textDecoration: 'none', color: 'black' }} to="/insertskinblog">
-          <MenuItem>Skin Care Blog</MenuItem>
-          </Link>
-           <Link style={{ textDecoration: 'none', color: 'black' }} to="/insertmuslimblog">
-          <MenuItem>life of a Muslim</MenuItem>
-        </Link>
-      </Menu>
-      <Button className={classes.adminButton}>
-        <Link style={{ textDecoration: 'none', color: 'white' }} to="/updatecard">
-          Update Blog News
-        </Link>
-      </Button>
-      <Button onClick={() => handleButtonClick('delete-blog')} className={`${classes.adminButton} ${classes.deleteButton}`}>
-        Delete Blog
-      </Button>
-    </div>:null}
-    </>
+    <div>
+
+       <div className={classes.mainBar}>
+        <Button onClick={HandleAdmin} style={{ color: 'white',fontSize:'20px' }}> Admin Panel</Button>
+        <Button onClick={HandleStore} style={{color:'white',marginLeft:'50px'}}>Oders</Button>
+      </div>
+
+      
+      {SwitchToggle==='Admin'&&(<div style={{ overflow: 'hidden',}}>
+      {(
+          <div className={classes.scrollableContainer}>
+         <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('manage')} className={`${classes.adminButton} ${classes.dashButton}`}>
+              <AddCircleOutlineIcon style={{marginLeft:'-20px'}} />
+              <div style={{marginLeft:'20px'}}>DashBoard</div>
+            </Button>
+          </Card>
+          <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('insert-Article')} className={classes.adminButton}>
+              <AddCircleOutlineIcon style={{marginLeft:'-20px'}} />
+              <div style={{marginLeft:'20px'}}>Insert Article</div>
+            </Button>
+          </Card>
+          <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('insert-business-Article')} className={classes.adminButton}>
+              <BusinessIcon style={{marginLeft:'-20px'}} />
+              <div style={{marginLeft:'20px'}}>Business Article</div>
+            </Button>
+          </Card>
+          <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('insert-health-Article')} className={classes.adminButton}>
+              <LocalHospitalIcon style={{marginLeft:'-20px'}}/>
+              <div style={{marginLeft:'20px'}}>Health Article</div>
+            </Button>
+          </Card>
+          <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('insert-technology-Article')} className={classes.adminButton}>
+              <CodeIcon />
+              <div>Technology Article</div>
+            </Button>
+          </Card>
+          <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('insert-cooking-Article')} className={classes.adminButton}>
+              <FastfoodIcon style={{marginLeft:'-20px'}}/>
+              <div style={{marginLeft:'20px'}}>Cooking Article</div>
+            </Button>
+          </Card>
+          <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('insert-tourism-Article')} className={classes.adminButton}>
+              <FlightTakeoffIcon style={{marginLeft:'-20px'}}/>
+              <div style={{marginLeft:'20px'}}>Tourism Article</div>
+            </Button>
+          </Card>
+          <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('insert-muslim-Article')} className={classes.adminButton}>
+              <FlightTakeoffIcon style={{marginLeft:'-20px'}}/>
+              <div style={{marginLeft:'20px'}}>life of a muslim</div>
+            </Button>
+          </Card>
+            <Card className={classes.cardRoot}>
+            <Button onClick={() => handleButtonClick('manage')} className={`${classes.adminButton} ${classes.deleteButton}`}>
+              <DeleteForeverIcon style={{marginLeft:'-20px'}}/>
+              <div style={{marginLeft:'20px'}}>Manage Article</div>
+            </Button>
+          </Card>
+        </div>
+      )}
+
+    {selectedPage === 'dashboard' && (
+  <div className={classes.pieChartContainer}>
+    <PieActiveArc />
+  </div>
+      )
+      }
+      
+          {selectedPage === 'insert-Article' && (
+  <div className={classes.pieChartContainer}>
+    <Insertblog />
+  </div>
+      )
+      }
+          {selectedPage === 'insert-muslim-Article' && (
+  <div className={classes.pieChartContainer}>
+    <Insertmuslim />
+  </div>
+      )
+      }
+          {selectedPage === 'insert-business-Article' && (
+  <div className={classes.pieChartContainer}>
+    <Insertbusiness />
+  </div>
+      )
+      }
+          {selectedPage === 'insert-health-Article' && (
+  <div className={classes.pieChartContainer}>
+    <Inserthealth />
+  </div>
+      )
+      }
+          {selectedPage === 'insert-technology-Article' && (
+  <div className={classes.pieChartContainer}>
+    <Inserttechnology />
+  </div>
+      )
+      }
+        {selectedPage === 'insert-tourism-Article' && (
+  <div className={classes.pieChartContainer}>
+    <InsertTourism />
+  </div>
+      )
+      }
+        {selectedPage === 'insert-cooking-Article' && (
+  <div className={classes.pieChartContainer}>
+    <Insertcooking />
+  </div>
+      )
+      }
+        {selectedPage === 'manage' && (
+  <div className={classes.pieChartContainer}>
+    <PieActiveArc />
+  </div>
+      )
+      }
+      
+      </div>)}
+      {/* Store */}
+      {SwitchToggle === 'store' && (
+        <Store/>
+      )}
+ </div>
   );
 };
 

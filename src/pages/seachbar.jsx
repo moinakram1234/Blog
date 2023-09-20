@@ -40,7 +40,7 @@ const SearchBar = () => {
         renderOption={(option) => (
           <ListItem
             component="a"
-            href={`/articledetails/${option.name}`}
+            href={`/articledetails/${option.name}`} style={{ color: 'green' }}
            
           >
             <ListItemText primary={option.title} />

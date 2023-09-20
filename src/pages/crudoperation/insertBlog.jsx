@@ -3,7 +3,8 @@ import { TextField, Button,useMediaQuery } from '@material-ui/core';
 import ImageCompressor from 'image-compressor.js';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the default styles
 const InsertBlog = () => {
   const [title, setTitle] = useState('');
   const [name, setname] = useState('');
@@ -111,7 +112,7 @@ const REACT_APP_URL = process.env.REACT_APP_URL;
         setImage4(null);
         setDescription4('');
         setSummary('');
-        alert(data.message);
+        toast.success(data.message);
       })
       .catch((err) => {
         console.log(err);
@@ -136,8 +137,8 @@ const toolbarOptions = {
 
   return (
     <div
-      className="container"
-      style={{ backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0zUhvJROxV6FnpsaCSC9p7jZ_2U4Nz8ei9w&usqp=CAU")', backgroundSize: 'cover', height: '100%' }}
+      className="container" 
+     
     >
       <h1 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Create a Articles</h1>
       <form onSubmit={handleSubmit} style={{ maxWidth: '70%', margin: '0 auto' }}>
@@ -148,6 +149,7 @@ const toolbarOptions = {
             value={name}
             onChange={(event) => setname(event.target.value)}
             fullWidth
+            required
           />
         </div>
         <div style={{ marginBottom: '20px' }}>
@@ -340,6 +342,7 @@ const toolbarOptions = {
           Submit
         </Button>
       </form>
+       <ToastContainer position="top-center" />
     </div>
   );
 };

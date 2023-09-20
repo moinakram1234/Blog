@@ -127,12 +127,30 @@ const Index = () => {
   return (
     <div  style={{ height: '100vh', overflowX: 'hidden' }}>
       <Navbar/>
-      <div style={{ height:isMobile?'': '100vh',marginLeft:isMobile?'0px':'', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)', backgroundImage: `url('${Images.Background}')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover',}}>
+      <div
+          style={{
+    height: isMobile ? '' : '100vh',
+    marginLeft: isMobile ? '0px' : '',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)',
+    background: 'linear-gradient(to bottom, lightgreen, green)', // Light green gradient
+    width: '100%',
+  }}
+  // style={{
+  //   height: isMobile ? '' : '100vh',
+  //   // marginLeft: isMobile ? '0px' : '',
+  //   // boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.8)',
+  //   // backgroundImage: `url('${Images.Background}')`,
+  //   // backgroundRepeat: 'no-repeat',
+  //   // backgroundSize: isMobile ? 'cover' : '100% 100%', // Adjusted property
+  //   // width: '100%',
+   
+  // }}
+>
       
           <Typography variant="h4" className={classes.wlcminner} style={{}}>
             Welcome
           </Typography>
-          <Typography variant="h5" className={classes.categoryTitle} style={{ marginTop:isMobile?'45px': '100px',fontSize:isMobile?'15px':'' }}>
+          <Typography variant="h5" className={classes.categoryTitle} style={{ marginTop:isMobile?'45px': '100px',fontSize:isMobile?'15px':'' ,color:'green'}}>
             Select Your Interested Articles:
           </Typography>
      
@@ -193,7 +211,7 @@ const Index = () => {
         >
           <Card style={{ width: isMobile ? '80%' : '35%', height: isMobile ? '200px' : '300px', marginLeft:isMobile?'7%':'50%', borderRadius: '20px',marginTop:isMobile?'50px':'-290px' }}>
             <Grid item>
-              <Typography style={{ fontSize: isMobile ? '17px' : '30px', fontWeight: 'bold', margin: '2%', marginLeft: isMobile ? '10px' : '0px' }} variant="body1">
+              <Typography style={{ color:'green', fontSize: isMobile ? '17px' : '30px', fontWeight: 'bold', margin: '2%', marginLeft: isMobile ? '10px' : '0px' }} variant="body1">
                 {productData[2].title}
               </Typography>
               <Typography variant="body1" className={classes.cardDescription}>

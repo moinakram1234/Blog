@@ -18,6 +18,9 @@ import Signup from './login/signup';
 import OTP from './login/otp';
 import ArticleDetails from './pages/articledetails';
 import InsertMuslim from './pages/crudoperation/insertmuslimblog'
+import ComingSoon from './Shoping/shoping';
+import CheckoutPage from './Shoping/checkout';
+import ConfirmationPage from './Shoping/confirmation';
 function Routerpage() {
 return (
 	<BrowserRouter>
@@ -38,6 +41,9 @@ return (
 			<Route exact path='/login' element={<LoginForm />} />
 			<Route exact path='/signup' element={<Signup />} />
 			<Route exact path='/otp' element={<OTP />} />
+			<Route exact path='/shoping' element={<ComingSoon />} />
+			<Route exact path="/checkout" element={<CheckoutPage />} />
+			<Route path="/confirmation" element={ <ConfirmationPage/>} />
 	</Routes>
 	</BrowserRouter>
 );

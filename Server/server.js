@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const translate = require('translate-google');
 
 //const crypto = require('crypto');
-const { Blog, BusinessBlog, SkinBlog, SportBlog, HealthBlog, TechnologyBlog,User,MuslimBlog} = require('./Schema');
+const {AmazonProduct,Store,Order, Blog, BusinessBlog, SkinBlog, SportBlog, HealthBlog, TechnologyBlog,User,MuslimBlog} = require('./Schema');
 
 const app = express();
 const port = 5000;
@@ -171,7 +171,6 @@ app.get('/allarticles', (req, res) => {
 app.post('/singlearticle', (req, res) => {
   const { name } = req.body;
 
-
   Promise.all([
     Blog.findOne({ name: name }).exec(),
     BusinessBlog.findOne({ name: name }).exec(),
@@ -188,12 +187,23 @@ app.post('/singlearticle', (req, res) => {
         return res.status(404).json({ error: 'Article not found' });
       }
 
-      res.send(JSON.stringify(article));
+      // Determine the schema of the article
+      let schema;
+      if (blog) schema = 'blog';
+      else if (businessBlog) schema = 'business';
+      else if (sportBlog) schema = 'sport';
+      else if (technologyBlog) schema = 'technology';
+      else if (skinBlog) schema = 'skin';
+      else if (healthBlog) schema = 'health';
+      else if (MuslimBlog) schema = 'muslim';
+
+      res.send(JSON.stringify({ ...article._doc, schema }));
     })
     .catch((err) => {
       res.status(500).json({ error: 'Failed to fetch article', details: err });
     });
 });
+
 
 app.get('/suggestions', (req, res) => {
   const { query } = req.query;
@@ -345,6 +355,8 @@ const generateOTP = () => {
 
 
 
+
+
 // Define the /translate route
 app.post('/translate', async (req, res) => {
   const { text, inputLanguage, targetLanguage } = req.body;
@@ -362,7 +374,126 @@ app.post('/translate', async (req, res) => {
   }
 });
 
+// server.js
 
+// ... (existing code)
+
+// Define the /separatearticles endpoint
+app.get('/separatearticles', (req, res) => {
+  // Fetch data for each schema separately
+  Promise.all([
+    HealthBlog.find().select(' name').exec(),
+    BusinessBlog.find().select(' name').exec(),
+    SportBlog.find().select(' name').exec(),
+    TechnologyBlog.find().select(' name').exec(),
+    SkinBlog.find().select(' name').exec(),
+    MuslimBlog.find().select(' name').exec(),
+  ])
+    .then(([healthBlogs, businessBlogs, sportBlogs, technologyBlogs, skinBlogs, muslimBlogs]) => {
+      // Store the data for each schema in separate constants
+      const healthData = healthBlogs;
+      const businessData = businessBlogs;
+      const sportData = sportBlogs;
+      const technologyData = technologyBlogs;
+      const skinData = skinBlogs;
+      const muslimData = muslimBlogs;
+
+      // Send the data back to the client
+      res.status(200).json({ healthData, businessData, sportData, technologyData, skinData, muslimData });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: 'Failed to fetch articles', details: err });
+    });
+});
+
+// ... (existing code)
+
+//Order
+// ... (previous code)
+
+app.post('/submit-order', async (req, res) => {
+  const { items, name, phone, address, paymentMethod, paymentScreenshot } = req.body;
+
+  const newOrder = new Order({
+    items,
+    name,
+    phone,
+    address,
+    paymentMethod,
+    paymentScreenshot,
+  });
+
+  try {
+    await newOrder.save();
+    res.status(200).json({ message: 'Order submitted successfully' });
+  } catch (error) {
+    console.error('Error saving order:', error);
+    res.status(500).json({ error: 'Error submitting order' });
+  }
+});
+
+// ... (remaining code)
+//store data
+app.post('/adddata', async (req, res) => {
+  try {
+    const { id, name, price, image } = req.body;
+    console.log(id, name, price, image)
+    const newItem = new Store({
+      id,
+      name,
+      price,
+      image, // Store the image data as base64 string
+    });
+    await newItem.save();
+    res.status(201).json({ message: 'Item stored successfully' });
+  } catch (error) {
+    console.error('Error storing item:', error);
+    res.status(500).json({ error: 'An error occurred while storing the item' });
+  }
+});
+//display orders
+app.get('/showorders', async (req, res) => {
+  try {
+    const data = await Order.find();
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'An error occurred while fetching data' });
+  }
+});
+//show store data to customer
+app.get('/showstoredata', async (req, res) => {
+  try {
+    const data = await Store.find();
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'An error occurred while fetching data' });
+  }
+});
+//Amazonlinks
+// Update your save endpoint to use async/await
+app.post('/amazonlink', async (req, res) => {
+  const { amazonAffiliateLink } = req.body;
+  try {
+    const newProduct = new AmazonProduct({ amazonAffiliateLink });
+    const product = await newProduct.save();
+    res.json(product);
+  } catch (err) {
+    res.status(500).json({ error: 'Error saving the product link' });
+  }
+});
+
+
+app.get('/amazonlink', async (req, res) => {
+ try {
+    const data = await AmazonProduct.find();
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'An error occurred while fetching data' });
+  }
+});
 function startServer() {
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

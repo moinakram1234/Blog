@@ -81,7 +81,7 @@ const ProductList = () => {
 />
 
                   <CardContent>
-                    <Typography style={{color:'green'}} >
+                    <Typography >
                  
                         {product.title}
                      
@@ -102,9 +102,7 @@ const ProductList = () => {
       <div>
         <h1>Contact US</h1>
       </div>
-      <div>
-        <Contactus />
-      </div>
+
     </div>
   );
 };
